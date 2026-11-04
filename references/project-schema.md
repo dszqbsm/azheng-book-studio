@@ -1,0 +1,2 @@
+项目schema=1。book.json记录书名作者出版社版本ISBN商品链接推荐理由主题时长模式。project_state.json各artifact记录file、sha256及inputs路径哈希；status动态校验直接输入。
+cues.json结构：{"audio_sha256":"最终音频哈希","script_sha256":"全文哈希","cues":[{"start":0,"end":16,"text":"真实识别且核对文字","type":"knowledge","chapter":"001"}]}。cue必须来自真实ASR，人工核对全文及时间后才进入分镜；当前不自动强制对齐。storyboard每镜id/start/end/narration/type/prompt/image/status；时间单位秒。所有素材相对项目根目录。项目JSON覆盖前保留.history；音频、草稿使用唯一名称。

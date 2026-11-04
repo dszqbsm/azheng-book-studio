@@ -1,0 +1,1 @@
+status检查哈希；validate检查时间；images检查素材；音文需人工核对。

@@ -1,0 +1,30 @@
+{
+  "S1": {
+    "title": "菜根谭前集电子文本",
+    "url": "https://ctext.org/wiki.pl?chapter=555125&if=en",
+    "locator": "耳中常闻逆耳之言",
+    "status": "verified",
+    "notes": "本次搜索结果核对该条存在；仅支持逆耳意见可供修省，不支持现代职场案例事实。版本页码待纸本复核。"
+  },
+  "S2": {
+    "title": "菜根谭电子文本",
+    "url": "https://zh.wikisource.org/zh/菜根譚",
+    "locator": "处世让一步为高",
+    "status": "verified",
+    "notes": "本次搜索结果核对条文存在；现代边界解释为讲述者推演。"
+  },
+  "S3": {
+    "title": "现代假设案例",
+    "url": "",
+    "locator": "本期原创办公室协作情境",
+    "status": "verified",
+    "notes": "明确为假设场景，不是调查事实或古籍故事。"
+  },
+  "S4": {
+    "title": "菜根谭后集电子文本",
+    "url": "https://zh.wikisource.org/zh/菜根譚",
+    "locator": "宠辱不惊",
+    "status": "verified",
+    "notes": "本次搜索结果核对存在；不引申作者生平事实。"
+  }
+}

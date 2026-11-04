@@ -1,0 +1,25 @@
+{
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "subtitles": false,
+  "hanzi_per_minute": 300,
+  "shot_ranges": {
+    "conflict": [
+      5,
+      10
+    ],
+    "history": [
+      8,
+      15
+    ],
+    "knowledge": [
+      12,
+      20
+    ],
+    "atmosphere": [
+      15,
+      25
+    ]
+  }
+}

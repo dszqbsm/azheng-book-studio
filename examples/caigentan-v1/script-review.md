@@ -1,0 +1,28 @@
+# 统稿检查
+{
+  "status": "needs_review",
+  "issues": [
+    "001:length_budget",
+    "002:length_budget",
+    "003:missing_chapter",
+    "004:missing_chapter",
+    "005:missing_chapter",
+    "006:missing_chapter"
+  ],
+  "chapter_hanzi": {
+    "001": 625,
+    "002": 655
+  },
+  "total_hanzi": 1280,
+  "target_hanzi": 9000,
+  "estimated_minutes": 4.266666666666667,
+  "actual_audio_minutes": null,
+  "ready_for_voice": false,
+  "manual_review_required": [
+    "事实与引文逐条核对",
+    "正文语义衔接",
+    "开头结尾闭环",
+    "六维0至5分人工评分"
+  ],
+  "scope": "deterministic structural checks; not semantic or factual certification"
+}

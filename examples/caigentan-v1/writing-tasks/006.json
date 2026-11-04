@@ -1,0 +1,39 @@
+{
+  "rules": [
+    "references/writing-dna-v1.md",
+    "references/narrative-structures-v1.md"
+  ],
+  "core_question": "为什么越想让所有人满意，越容易把自己耗空？",
+  "chapter": {
+    "chapter_id": "006",
+    "title": "收回评价权，保留行动力",
+    "question": "怎样把清醒变成明天可做的一件事？",
+    "evidence": [
+      "S1",
+      "S4"
+    ],
+    "interpretation": "回应母题：有边界地合作，保留判断与行动",
+    "transition_question": "回到开头：下一次评价到来，你准备如何回应？",
+    "emotion_role": "释然",
+    "target_hanzi": 1400,
+    "target_minutes": 4.666666666666667,
+    "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+  },
+  "sources": {
+    "S1": {
+      "title": "菜根谭前集电子文本",
+      "url": "https://ctext.org/wiki.pl?chapter=555125&if=en",
+      "locator": "耳中常闻逆耳之言",
+      "status": "verified",
+      "notes": "本次搜索结果核对该条存在；仅支持逆耳意见可供修省，不支持现代职场案例事实。版本页码待纸本复核。"
+    },
+    "S4": {
+      "title": "菜根谭后集电子文本",
+      "url": "https://zh.wikisource.org/zh/菜根譚",
+      "locator": "宠辱不惊",
+      "status": "verified",
+      "notes": "本次搜索结果核对存在；不引申作者生平事实。"
+    }
+  },
+  "instruction": "写原创纯口播，明确解释与引文边界；未核验不得引作事实；段尾自然交给下一问。"
+}

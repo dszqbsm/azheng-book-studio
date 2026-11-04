@@ -1,0 +1,39 @@
+{
+  "rules": [
+    "references/writing-dna-v1.md",
+    "references/narrative-structures-v1.md"
+  ],
+  "core_question": "为什么越想让所有人满意，越容易把自己耗空？",
+  "chapter": {
+    "chapter_id": "002",
+    "title": "把意见与自我价值分开",
+    "question": "别人一句批评，为什么能占据我们一整晚？",
+    "evidence": [
+      "S1",
+      "S3"
+    ],
+    "interpretation": "批评提供信息，但不能独占自我评价",
+    "transition_question": "让一步，怎样才不会变成一直退？",
+    "emotion_role": "理解",
+    "target_hanzi": 1500,
+    "target_minutes": 5.0,
+    "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+  },
+  "sources": {
+    "S1": {
+      "title": "菜根谭前集电子文本",
+      "url": "https://ctext.org/wiki.pl?chapter=555125&if=en",
+      "locator": "耳中常闻逆耳之言",
+      "status": "verified",
+      "notes": "本次搜索结果核对该条存在；仅支持逆耳意见可供修省，不支持现代职场案例事实。版本页码待纸本复核。"
+    },
+    "S3": {
+      "title": "现代假设案例",
+      "url": "",
+      "locator": "本期原创办公室协作情境",
+      "status": "verified",
+      "notes": "明确为假设场景，不是调查事实或古籍故事。"
+    }
+  },
+  "instruction": "写原创纯口播，明确解释与引文边界；未核验不得引作事实；段尾自然交给下一问。"
+}

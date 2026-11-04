@@ -1,0 +1,39 @@
+{
+  "rules": [
+    "references/writing-dna-v1.md",
+    "references/narrative-structures-v1.md"
+  ],
+  "core_question": "为什么越想让所有人满意，越容易把自己耗空？",
+  "chapter": {
+    "chapter_id": "005",
+    "title": "修心的作用与限度",
+    "question": "当环境确实不公平，修心还有什么用？",
+    "evidence": [
+      "S2",
+      "S3"
+    ],
+    "interpretation": "承认制度问题，增加协商退出等现实选项",
+    "transition_question": "怎样把清醒变成明天可做的一件事？",
+    "emotion_role": "清醒",
+    "target_hanzi": 1700,
+    "target_minutes": 5.666666666666667,
+    "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+  },
+  "sources": {
+    "S2": {
+      "title": "菜根谭电子文本",
+      "url": "https://zh.wikisource.org/zh/菜根譚",
+      "locator": "处世让一步为高",
+      "status": "verified",
+      "notes": "本次搜索结果核对条文存在；现代边界解释为讲述者推演。"
+    },
+    "S3": {
+      "title": "现代假设案例",
+      "url": "",
+      "locator": "本期原创办公室协作情境",
+      "status": "verified",
+      "notes": "明确为假设场景，不是调查事实或古籍故事。"
+    }
+  },
+  "instruction": "写原创纯口播，明确解释与引文边界；未核验不得引作事实；段尾自然交给下一问。"
+}

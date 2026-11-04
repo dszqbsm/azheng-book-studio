@@ -1,0 +1,98 @@
+# 为什么越想让所有人满意，越容易把自己耗空？
+主模式：A；以讨好才能相处好的初始认知推进到有边界的合作；局部采用F的假设案例比较。未选B，现有资料不支持人物传奇；未选C，缺历史事件证据链。
+
+{
+  "chapter_id": "001",
+  "title": "被好评牵着走的人",
+  "question": "为什么越想让所有人满意，越容易把自己耗空？",
+  "evidence": [
+    "S3",
+    "S4"
+  ],
+  "interpretation": "建立讨好与疲惫的矛盾",
+  "transition_question": "别人一句批评，为什么能占据我们一整晚？",
+  "emotion_role": "好奇",
+  "target_hanzi": 1200,
+  "target_minutes": 4.0,
+  "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+}
+
+{
+  "chapter_id": "002",
+  "title": "把意见与自我价值分开",
+  "question": "别人一句批评，为什么能占据我们一整晚？",
+  "evidence": [
+    "S1",
+    "S3"
+  ],
+  "interpretation": "批评提供信息，但不能独占自我评价",
+  "transition_question": "让一步，怎样才不会变成一直退？",
+  "emotion_role": "理解",
+  "target_hanzi": 1500,
+  "target_minutes": 5.0,
+  "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+}
+
+{
+  "chapter_id": "003",
+  "title": "让步必须有边界",
+  "question": "让一步，怎样才不会变成一直退？",
+  "evidence": [
+    "S2",
+    "S3"
+  ],
+  "interpretation": "区分一次退让与长期责任失衡",
+  "transition_question": "不计较评价，会不会让人失去进取心？",
+  "emotion_role": "紧张",
+  "target_hanzi": 1600,
+  "target_minutes": 5.333333333333333,
+  "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+}
+
+{
+  "chapter_id": "004",
+  "title": "从证明自己到做好事情",
+  "question": "不计较评价，会不会让人失去进取心？",
+  "evidence": [
+    "S4",
+    "S3"
+  ],
+  "interpretation": "将注意力从即时赞许移回可控制的工作",
+  "transition_question": "当环境确实不公平，修心还有什么用？",
+  "emotion_role": "反思",
+  "target_hanzi": 1600,
+  "target_minutes": 5.333333333333333,
+  "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+}
+
+{
+  "chapter_id": "005",
+  "title": "修心的作用与限度",
+  "question": "当环境确实不公平，修心还有什么用？",
+  "evidence": [
+    "S2",
+    "S3"
+  ],
+  "interpretation": "承认制度问题，增加协商退出等现实选项",
+  "transition_question": "怎样把清醒变成明天可做的一件事？",
+  "emotion_role": "清醒",
+  "target_hanzi": 1700,
+  "target_minutes": 5.666666666666667,
+  "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+}
+
+{
+  "chapter_id": "006",
+  "title": "收回评价权，保留行动力",
+  "question": "怎样把清醒变成明天可做的一件事？",
+  "evidence": [
+    "S1",
+    "S4"
+  ],
+  "interpretation": "回应母题：有边界地合作，保留判断与行动",
+  "transition_question": "回到开头：下一次评价到来，你准备如何回应？",
+  "emotion_role": "释然",
+  "target_hanzi": 1400,
+  "target_minutes": 4.666666666666667,
+  "fact_notes": "古籍观点依来源定位；现代案例均为假设，解释为讲述者推演，不归作原文。"
+}

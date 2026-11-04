@@ -1,0 +1,1 @@
+pyJianYingDraft独立适配器，图片音频轨道与推近关键帧。

@@ -40,7 +40,7 @@ def tool(name):
  return v
 def audio(p,source):
  p=Path(p);source=Path(source)
- result=subprocess.run([tool("ffprobe"),"-v","error","-show_format","-show_streams","-of","json",str(source)],capture_output=True,text=True,check=True)
+ result=subprocess.run([tool("ffprobe"),"-v","error","-show_format","-show_streams","-of","json",str(source)],capture_output=True,text=True,encoding="utf-8",check=True)
  info=json.loads(result.stdout);duration=float(info["format"]["duration"])
  if not math.isfinite(duration) or duration<=0 or not any(s["codec_type"]=="audio" for s in info["streams"]): raise ValueError("Invalid audio")
  subprocess.run([tool("ffmpeg"),"-v","error","-xerror","-i",str(source),"-f","null","-"],capture_output=True,check=True)

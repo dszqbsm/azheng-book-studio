@@ -16,7 +16,7 @@ description: 围绕一本书制作20至40分钟中文深度解说，支持独立
 - script --input 文稿：检查字数、重复并生成章节记录。修改单章后重新整合并执行；不调用配音。
 - voice --input 章节文本：默认拒绝付费；确认后 --paid-authorized。单章重试选该文件，保存新音频版本。记录参数哈希；不自动重试收费请求。
 - audio --input 最终MP3：导入并完整解码检查。章节音频用FFmpeg concat后导入；不要用旧章节拼接记录冒充最终版本。
-- asr：本地 Coli 保存原始JSON；依 references/project-schema.md 核对音文并转换真实cue。不得用字数估算时间。漏读须补录后重新转录。
+- asr：用户确认最终音频无误后，本地 Coli 保存原始JSON；Agent自动对照对应版本定稿、校正转录文字并转换真实cue，详见modules/audio-alignment/GUIDE.md。不要求用户逐条核对识别错字。不得用字数估算时间。
 - storyboard --input cues.json --style 画风：按真实cue边界动态聚合；人工复核场景类型、切点与人物连续性。
 - queue：生成生图任务；调用当前宿主生图工具或外部服务后填入每镜image相对路径，真实检查 images；单镜重做保留旧文件。
 - draft：创建唯一新版本剪映草稿，无字幕；不自动导出MP4，不声称剪映播放验收。

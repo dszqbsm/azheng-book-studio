@@ -1,1 +1,1 @@
-status检查哈希；validate检查时间；images检查素材；音文需人工核对。
+status检查哈希；validate检查时间；images检查素材。用户试听确认音频后，由Agent自动对照定稿校正转录文字并检查时间映射，不要求用户逐条核对识别错字。原始ASR与校正结果分开保留；按定稿校正文字不等于Agent逐字试听或修复音频。异常区间由Agent先调查，参见../audio-alignment/GUIDE.md。

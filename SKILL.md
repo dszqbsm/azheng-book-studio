@@ -18,7 +18,7 @@ description: 围绕一本书制作20至40分钟中文深度解说，支持独立
 - audio --input 最终MP3：导入并完整解码检查。章节音频用FFmpeg concat后导入；不要用旧章节拼接记录冒充最终版本。
 - asr：用户确认最终音频无误后，本地 Coli 保存原始JSON；Agent自动对照对应版本定稿、校正转录文字并转换真实cue，详见modules/audio-alignment/GUIDE.md。不要求用户逐条核对识别错字。不得用字数估算时间。
 - storyboard --input cues.json --style 画风：按真实cue边界动态聚合；人工复核场景类型、切点与人物连续性。
-- queue：生成生图任务；调用当前宿主生图工具或外部服务后填入每镜image相对路径，真实检查 images；单镜重做保留旧文件。
+- queue：生成生图任务；用户要求继续配图时默认连续完成全部缺失镜头，不自行停在首张预览。逐张调用当前宿主生图工具或外部服务后保存到项目，填入每镜image相对路径并检查登记；已有有效图复用，单镜重做保留旧文件。详见modules/image-generation/GUIDE.md。
 - draft：创建唯一新版本剪映草稿，无字幕；不自动导出MP4，不声称剪映播放验收。
 - status / doctor：检查版本或依赖。失效阶段从上游重新生成，已有效产物复用。
 

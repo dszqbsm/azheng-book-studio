@@ -1,0 +1,14 @@
+{
+  "enabled_by_default": false,
+  "size": 9,
+  "bold": true,
+  "color": [1, 0.84, 0],
+  "border_color": [0, 0, 0],
+  "border_width": 40,
+  "position_y": -0.6,
+  "max_line_width": 0.82,
+  "auto_wrapping": true,
+  "remove_trailing_pause_punctuation": true,
+  "preserve_quotes_and_book_marks": true,
+  "split_at_natural_punctuation_only": true
+}

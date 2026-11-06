@@ -1,5 +1,5 @@
 {
-  "enabled_by_default": false,
+  "enabled_by_default": true,
   "size": 9,
   "bold": true,
   "color": [1, 0.84, 0],

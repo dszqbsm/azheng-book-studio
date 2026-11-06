@@ -2,7 +2,8 @@
   "width": 1080,
   "height": 1920,
   "fps": 30,
-  "subtitles": false,
+  "chapter_pause_seconds": 0.5,
+  "subtitles": true,
   "hanzi_per_minute": 300,
   "shot_ranges": {
     "conflict": [

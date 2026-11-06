@@ -2,11 +2,14 @@ import argparse,json,os,asyncio,uuid,subprocess
 from pathlib import Path
 from core import *
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("command",choices=["init","status","script","audio","storyboard","queue","images","draft","doctor","voice","asr"]);ap.add_argument("project",type=Path);ap.add_argument("--input",type=Path);ap.add_argument("--title",default="新书");ap.add_argument("--minutes",type=int,default=30);ap.add_argument("--style",default="historical-realism");ap.add_argument("--paid-authorized",action="store_true");args=ap.parse_args();p=args.project.resolve();c=args.command
+ ap=argparse.ArgumentParser();ap.add_argument("command",choices=["init","status","script","audio","merge-audio","storyboard","queue","images","draft","doctor","voice","asr"]);ap.add_argument("project",type=Path);ap.add_argument("--input",type=Path);ap.add_argument("--title",default="新书");ap.add_argument("--minutes",type=int,default=30);ap.add_argument("--style",default="historical-realism");ap.add_argument("--paid-authorized",action="store_true");args=ap.parse_args();p=args.project.resolve();c=args.command
  if c=="init": result=init(p,args.title,args.minutes)
  elif c=="status": result=status(p)
  elif c=="script": result=ingest(p,args.input)
  elif c=="audio": result=audio(p,args.input)
+ elif c=="merge-audio":
+  from merge_audio import merge_audio
+  result=merge_audio(p,args.input)
  elif c=="storyboard": result=storyboard(p,args.input,args.style)
  elif c=="images": result=images(p)
  elif c=="queue":

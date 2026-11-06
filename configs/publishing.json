@@ -1,0 +1,30 @@
+{
+  "source": "用户指定的发布约束，非平台规则实时查询",
+  "require_all_platforms": true,
+  "required_deliverables": ["platform_titles", "description", "recommended_tags", "chapter_timestamps", "collection_recommendation", "covers"],
+  "covers": {
+    "style_id": "historical-cinematic-ink-gold-v1",
+    "style_guide": "references/cover-style-v1.md",
+    "formats": {
+      "3:4": {"width": 1080, "height": 1440},
+      "4:3": {"width": 1440, "height": 1080}
+    },
+    "additional_formats_by_default": false
+  },
+  "chapters": {
+    "required_before_publication": true,
+    "max_name_characters": 12,
+    "prefer_short_names": true,
+    "include_opening_and_conclusion": true,
+    "timestamp_format": "MM:SS，超过1小时使用HH:MM:SS",
+    "timing_source": "最终音视频真实时间轴；音频补录或视频剪辑后重新核对",
+    "allow_character_count_estimates": false
+  },
+  "counting": "Unicode码点数，包含标点、数字、字母与空格；避免emoji及组合字符",
+  "platforms": {
+    "xiaohongshu": {"name": "小红书", "max_characters": 20},
+    "douyin": {"name": "抖音", "max_characters": 30},
+    "weixin_channels": {"name": "视频号", "max_characters": 16},
+    "kuaishou": {"name": "快手", "max_characters": null}
+  }
+}

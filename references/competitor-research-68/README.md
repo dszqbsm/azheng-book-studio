@@ -21,4 +21,4 @@
 
 [仓库审查与初始清点](reports/intake-audit.md) · [首轮入库记录](reports/doubao-import.md) · [逐条报告模板](analysis/individual/TEMPLATE.md) · [升级路线图](reports/improvement-roadmap.md)
 
-68 条逐条报告已写入 `analysis/individual/`。横向结果见 [研究总报告](reports/competitor-research-final.md) 和 [视频矩阵](datasets/video-matrix.csv)。正文覆盖 50 条，18 条只编码可见包装和数据。V2 规则均为独立候选，见 [V1/V2 对照](../writing-dna-v1-v2-comparison.md)。
+68 条逐条报告已写入 `analysis/individual/`。横向结果见 [研究总报告](reports/competitor-research-final.md) 和 [视频矩阵](datasets/video-matrix.csv)。正文覆盖 50 条，18 条只编码可见包装和数据。V2 写作规则经用户确认已启用，见 [V1/V2 对照](../writing-dna-v1-v2-comparison.md)。

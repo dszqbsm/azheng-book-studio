@@ -1,4 +1,4 @@
-"""V1 authoring support; no model calls and no benchmark transcript reads."""
+"""V2 authoring support; no model calls and no benchmark transcript reads."""
 import argparse,json,re
 from pathlib import Path
 from core import read,save,digest,record
@@ -29,7 +29,7 @@ def prepare(p):
  (p/"topic-proposals.md").write_text(proposals,encoding="utf-8")
  (p/"outline.md").write_text("# "+plan["core_question"]+"\n主模式："+plan["mode"]+"；"+plan["mode_selection_rationale"]+"\n\n"+"\n\n".join(json.dumps(c,ensure_ascii=False,indent=2) for c in plan["chapters"]),encoding="utf-8")
  for c in plan["chapters"]:
-  save(p/"writing-tasks"/(c["chapter_id"]+".json"),dict(rules=["references/writing-dna-v1.md","references/narrative-structures-v1.md"],core_question=plan["core_question"],chapter=c,sources={sid:sources[sid] for sid in c.get("evidence",[]) if sid in sources},instruction="写原创纯口播，明确解释与引文边界；未核验不得引作事实；段尾自然交给下一问。"))
+  save(p/"writing-tasks"/(c["chapter_id"]+".json"),dict(rules=["references/writing-dna-v2.md","references/narrative-structures-v2.md"],core_question=plan["core_question"],chapter=c,sources={sid:sources[sid] for sid in c.get("evidence",[]) if sid in sources},instruction="写原创纯口播，明确解释与引文边界；未核验不得引作事实；段尾自然交给下一问。"))
  save(p/"plan-check.json",dict(issues=issues,ready=not issues));return issues
 
 def review(p):
@@ -47,7 +47,7 @@ def review(p):
  script="\n\n".join(texts);target=p/"script.md"
  if target.exists() and target.read_text(encoding="utf-8")!=script: save(p/"script-history"/(digest(target)+".json"),dict(text=target.read_text(encoding="utf-8")))
  target.write_text(script,encoding="utf-8")
- report=dict(status="needs_review" if issues else "structural_checks_passed",issues=issues,chapter_hanzi=counts,total_hanzi=hanzi(script),target_hanzi=plan["minutes"]*300,estimated_minutes=hanzi(script)/300,actual_audio_minutes=None,ready_for_voice=False,manual_review_required=["事实与引文逐条核对","正文语义衔接","开头结尾闭环","六维0至5分人工评分"],scope="deterministic structural checks; not semantic or factual certification")
+ report=dict(status="needs_review" if issues else "structural_checks_passed",issues=issues,chapter_hanzi=counts,total_hanzi=hanzi(script),target_hanzi=plan["minutes"]*300,estimated_minutes=hanzi(script)/300,actual_audio_minutes=None,ready_for_voice=False,manual_review_required=["事实与引文逐条核对","正文语义衔接","开头结尾闭环","按 references/script-quality-rubric-v2.md 完成十维1至10分人工评分"],scope="deterministic structural checks; not semantic or factual certification")
  save(p/"script-review.json",report);(p/"script-review.md").write_text("# 统稿检查\n"+json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
  if (p/"project_state.json").exists(): record(p,"script",target,{"writing-plan.json":digest(p/"writing-plan.json"),**{str(f.relative_to(p)):digest(f) for f in (p/"chapters").glob("*.md")}})
  return report

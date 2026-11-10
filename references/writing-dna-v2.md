@@ -1,5 +1,5 @@
-# Writing DNA V2.0 候选
-状态：研究评审用。当前生产入口继续读取 Writing DNA V1.0。
+# Writing DNA V2.0
+状态：2026-11-10 经用户确认，默认用于新讲书文稿。
 
 - 先用选书卡限定一个可在一期内回答的问题，并为每个核心判断准备可定位的原书或史料。
 - 写出标题与封面的分工。标题交代对象或具体问题，封面可补书名、人物处境或行动方向。发布规格沿用现有四平台规则。
@@ -9,4 +9,4 @@
 - 结尾直接回答开头，再从关注、评论、收藏或延伸阅读中选择适用动作。商品和会员按真实资料及本期授权处理。
 - 初稿预算可沿用 V1 每分钟约 300 字。全片、章节与封面分钟承诺以成片和实际音轨复核。
 
-来源见 [68 条研究](competitor-research-68/reports/competitor-research-final.md)。使用 [质量量表](script-quality-rubric-v2-candidate.md) 做影子评审。
+来源见 [68 条研究](competitor-research-68/reports/competitor-research-final.md)。使用 [质量量表](script-quality-rubric-v2.md) 审稿。

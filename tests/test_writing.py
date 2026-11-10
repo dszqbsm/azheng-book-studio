@@ -17,6 +17,9 @@ class WritingTests(unittest.TestCase):
     return original(path,*a,**kw)
    with patch.object(Path,"open",guarded): self.assertEqual(prepare(p),[])
    self.assertTrue((p/"outline.md").exists());self.assertEqual(len(list((p/"writing-tasks").glob("*.json"))),6)
+   task=read(p/"writing-tasks/001.json")
+   self.assertEqual(task["rules"],["references/writing-dna-v2.md","references/narrative-structures-v2.md"])
+   self.assertTrue(all((ROOT/rule).is_file() for rule in task["rules"]))
  def test_broken_transition_and_evidence(self):
   with tempfile.TemporaryDirectory() as t:
    plan,sources=self.fixture(Path(t));plan["chapters"][0]["transition_question"]="无关问题";plan["chapters"][1]["evidence"]=[]

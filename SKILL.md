@@ -14,7 +14,7 @@ description: 围绕一本书制作20至40分钟中文深度解说，支持独立
 
 只执行用户请求阶段；定稿后才可配音，付费前核对章节文本和配置，本次开发不得付费。真实完成情况用 status 检查；缺服务只输出任务队列，不声称已生成。
 
-新讲书创作必须先读 references/writing-dna-v1.md 和 references/narrative-structures-v1.md，作为主要规则。旧 writing-dna.md 仅供V0.1追溯，不覆盖V1。日常不读取 benchmark/transcripts。方法研究先读 benchmark/INDEX.md 和 analysis/ten-sample-analysis-v1.md；只有验证具体争议时按metadata定位单篇原稿；数据比较才读metrics.csv。对标不作为新书事实来源。整理 research/sources.json：来源URL、版本页码、摘录、观点、核验状态；每个核心论点关联来源。生成3至5角度，选择一个贯穿问题，选择A至E结构，写 outline.md，分章写 chapters，整合纯口播 script.md。引用原著与现代阐释分开，不编造原句。
+新讲书创作必须先读 references/writing-dna-v1.md 和 references/narrative-structures-v1.md，作为主要规则。旧 writing-dna.md 仅供V0.1追溯，不覆盖V1。日常不读取 benchmark/transcripts。方法研究先读 benchmark/INDEX.md 和 analysis/ten-sample-analysis-v1.md；只有验证具体争议时按metadata定位单篇原稿；数据比较才读metrics.csv。对标不作为新书事实来源。整理 research/sources.json：来源URL、版本页码、摘录、观点、核验状态；每个核心论点关联来源。生成3至5角度，选择一个贯穿问题，选择A至H结构，写 outline.md，分章写 chapters，整合纯口播 script.md。引用原著与现代阐释分开，不编造原句。
 
 命令：`PY scripts/studio.py COMMAND PROJECT [OPTIONS]`
 - init --title 书名 --minutes 30：创建独立一期。
@@ -31,6 +31,9 @@ description: 围绕一本书制作20至40分钟中文深度解说，支持独立
 人物年龄服装、年代地点、参考图与场景ID需在 research/visual-bible.json 记录并补全每镜独立提示词。未指定画风先询问。商业资料只记录 book.json，不擅加荐书话术。
 
 ## V1 写作可执行路径
+第二轮竞品研究使用 [68 条视频研究资料库](references/competitor-research-68/README.md)，仅在研究或候选评审任务中读取。生产创作继续使用 Writing DNA V1.0。
+用户要求评审 V2 时，读取 [Writing DNA V2 候选](references/writing-dna-v2-candidate.md) 和 [V1/V2 对照](references/writing-dna-v1-v2-comparison.md)。在独立评审中使用候选规则，生产写作和发布入口仍沿用当前规则。
+
 读取 modules/book-writing/GUIDE.md。Codex负责原创提案和逐章创作，脚本负责校验、任务生成、统稿与报告，不使用假定的模型API。
 1. 整理 research/sources.json，创建 writing-plan.json（格式见references/writing-workflow-v1.md），先交付3至5选题及理由。
 2. `PY scripts/writing.py prepare PROJECT` 校验计划并输出选题、大纲和逐章任务。缺资料列gap，不编造引文。

@@ -5,4 +5,8 @@ __pycache__/
 .env.*
 !.env.example
 references/benchmark/transcripts/
+references/competitor-research-68/raw/*
+!references/competitor-research-68/raw/README.md
+!references/competitor-research-68/raw/metadata.template.csv
+references/competitor-research-68/datasets/inventory.local.json
 *.partial

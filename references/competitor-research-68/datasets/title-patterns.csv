@@ -1,0 +1,6 @@
+﻿title_pattern,video_count,codable_video_count,example_video_ids,counterexample_video_ids,evidence_ref
+书名＋陈述,18,67,V002|V007|V008|V013|V019|V021|V028|V036|V042|V043|V044|V046|V048|V058|V059|V060|V062|V064,,video-matrix.csv
+书名＋人物与冲突,1,67,V003,,video-matrix.csv
+书名＋疑问,45,67,V004|V005|V006|V010|V011|V012|V014|V015|V016|V017|V018|V020|V022|V023|V025|V026|V027|V029|V030|V031|V032|V033|V034|V035|V037|V038|V039|V041|V045|V047|V049|V050|V051|V052|V053|V054|V055|V056|V057|V061|V063|V065|V066|V067|V068,,video-matrix.csv
+主题＋问句,2,67,V009|V024,,video-matrix.csv
+主题＋主张或情境,1,67,V040,,video-matrix.csv

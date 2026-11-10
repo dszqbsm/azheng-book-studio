@@ -1,4 +1,6 @@
-# azheng-book-studio V0.1
+# azheng-book-studio
+
+当前生产写作规则为 Writing DNA V1.0，发布封面使用 V1。第二轮竞品研究的入库工具与模板见 [68 条视频研究](references/competitor-research-68/README.md)。研究成果先形成独立候选，生产接入须经用户审核。
 
 ## 发布前一次性交付
 

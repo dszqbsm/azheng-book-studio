@@ -1,0 +1,6 @@
+﻿book_category,video_count,unique_book_count,classified_video_count,member_video_count,known_member_status_count,median_duration_seconds,evidence_ref
+思想、处世与策略,19,18,68,0,0,1821.0,video-matrix.csv
+历史,16,16,68,1,1,1911.0,video-matrix.csv
+文学,23,22,68,0,0,1996.0,video-matrix.csv
+经济、文化及其他,5,5,68,0,0,1818.0,video-matrix.csv
+人物传记与人物专题,5,4,68,0,0,2030.25,video-matrix.csv

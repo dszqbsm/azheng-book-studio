@@ -12,12 +12,13 @@ def export(p,width=1080,height=1920,fps=30):
  enabled=read(p/"book.json").get("subtitles",defaults.get("subtitles",True))
  captions=None
  if enabled:
-  from subtitles import clean_cues
+  from subtitles import clean_cues, validate_short_cues
   caption_path=p/"subtitles/captions.json"
   if not caption_path.exists(): raise ValueError("Missing aligned short-sentence subtitles/captions.json; complete subtitle stage first")
   captions=clean_cues(read(caption_path))
   if captions.get("audio_sha256")!=a["sha256"] or captions.get("script_sha256")!=digest(p/"script.md"): raise ValueError("Subtitle audio/script version mismatch")
   if not captions["cues"] or captions["cues"][-1]["end"]>a["duration"]+1/fps: raise ValueError("Subtitle timing outside narration")
+  validate_short_cues(captions["cues"])
  root=p/"draft";script=d.DraftFolder(str(root)).create_draft(name,width,height,fps,maintrack_adsorb=False)
  materials=root/name/"materials";materials.mkdir()
  def copy(f):

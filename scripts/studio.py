@@ -1,6 +1,26 @@
 import argparse,json,os,asyncio,uuid,subprocess
 from pathlib import Path
 from core import *
+
+
+def voice_api_key():
+ key = os.environ.get("AZHENG_DOUBAO_API_KEY", "").strip()
+ if key:
+  return key
+ local_scripts = Path(__file__).resolve().parents[2] / ".agents/skills/story-studio/scripts"
+ if (local_scripts / "voice_settings.py").is_file():
+  import sys
+  sys.path.insert(0, str(local_scripts))
+  try:
+   from voice_settings import read_api_key
+   return read_api_key()
+  except Exception:
+   raise ValueError("Unable to read the local Doubao credential. Check it with voice_settings.py check.") from None
+  finally:
+   sys.path.pop(0)
+ raise ValueError("Missing AZHENG_DOUBAO_API_KEY; never print credentials")
+
+
 def main():
  ap=argparse.ArgumentParser();ap.add_argument("command",choices=["init","status","script","audio","merge-audio","storyboard","queue","images","draft","doctor","voice","asr"]);ap.add_argument("project",type=Path);ap.add_argument("--input",type=Path);ap.add_argument("--title",default="新书");ap.add_argument("--minutes",type=int,default=30);ap.add_argument("--style",default="historical-realism");ap.add_argument("--paid-authorized",action="store_true");args=ap.parse_args();p=args.project.resolve();c=args.command
  if c=="init": result=init(p,args.title,args.minutes)
@@ -23,8 +43,7 @@ def main():
  elif c=="voice":
   from doubao_protocol import synthesize,validate_audio
   if not args.paid_authorized: raise ValueError("Paid synthesis disabled; confirm chapter text and parameters before --paid-authorized")
-  profile=read(Path(__file__).resolve().parents[1]/"configs/voice.json");key=os.environ.get("AZHENG_DOUBAO_API_KEY")
-  if not key: raise ValueError("Missing AZHENG_DOUBAO_API_KEY; never print credentials")
+  profile=read(Path(__file__).resolve().parents[1]/"configs/voice.json");key=voice_api_key()
   text=args.input.read_text(encoding="utf-8-sig");out=p/"audio"/(uuid.uuid4().hex+".mp3")
   asyncio.run(synthesize(text,profile,key,out));duration=validate_audio(out,tool("ffprobe"),tool("ffmpeg"));save(out.with_suffix(".json"),dict(text_sha256=digest(args.input),audio_sha256=digest(out),profile=profile,duration=duration));result=str(out)
  elif c=="asr":

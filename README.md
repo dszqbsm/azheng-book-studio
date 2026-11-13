@@ -13,7 +13,7 @@ Agent准备完整发布内容与成图后，用已配置Python执行 `PY /技能
 
 执行：使用现有媒体Python运行 `scripts/studio.py --help`。init PROJECT --title 增广贤文；script PROJECT --input script.md；doctor PROJECT；其余见SKILL.md。PROJECT使用独立创作目录，不能放在技能源码中。
 
-核心仅Python标准库；媒体需要FFmpeg/ffprobe，图片需要Pillow，草稿需要pyJianYingDraft==0.3.1及MediaInfo，配音需要websockets，ASR需要Coli及sensevoice模型。利用已有环境，通过PATH提供工具，不重复安装。配音密钥独立读取AZHENG_DOUBAO_API_KEY，不读取原技能私有安全配置。
+核心仅Python标准库；媒体需要FFmpeg/ffprobe，图片需要Pillow，草稿需要pyJianYingDraft==0.3.1及MediaInfo，配音需要websockets，ASR需要Coli及sensevoice模型。利用已有环境，通过PATH提供工具，不重复安装。配音默认使用悠悠君子 2.0 和 seed-tts-2.0。优先读取 AZHENG_DOUBAO_API_KEY，在历史人物视频工作区也可复用 Story Studio 已保存的本地凭据。
 测试：`PY -m unittest discover -s tests -v`（在本目录执行）。测试产物置系统临时目录，明确为模拟。
 当前限制：自动精确音文对齐、SRT、章节拼接命令、配置全量贯通、智能场景分类和生图服务适配尚未完整实现；详见交付报告。不能据此宣称生产全链路验收。
 

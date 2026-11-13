@@ -1,6 +1,6 @@
 {
-  "speaker": "S_zhNIcTEj2",
-  "resource_id": "seed-icl-2.0",
+  "speaker": "zh_male_youyoujunzi_uranus_bigtts",
+  "resource_id": "seed-tts-2.0",
   "speech_rate": 0,
   "loudness_rate": 0
 }

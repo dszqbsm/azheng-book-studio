@@ -1,4 +1,4 @@
-独立豆包V3协议适配器，环境变量密钥；章节合成保存哈希，无自动收费重试。
+默认使用豆包 V3 双向 WebSocket、悠悠君子 2.0（zh_male_youyoujunzi_uranus_bigtts）和语音合成资源 seed-tts-2.0。语速与音量为 0，请求省略 model。参数取 configs/voice.json。优先读取 AZHENG_DOUBAO_API_KEY，在历史人物视频工作区也可复用 Story Studio 已保存的本地凭据。章节合成保存哈希，无自动收费重试。
 
 章节间额外停顿默认0.5秒，读取 configs/defaults.json 的 chapter_pause_seconds；不叠加旧版本的3秒静音。使用 `studio.py merge-audio PROJECT --input 合并清单.json` 本地合并并检查。清单格式为 `{"chapters":[{"file":"audio/开场.mp3"},{"file":"audio/第一章.mp3"}]}`，路径相对项目目录或为绝对路径，顺序即播放顺序。停顿仅插在相邻章节之间，不修改章节内部节奏、不触发付费合成。全片时长估计包含这些停顿，不通过延长停顿凑分钟数。
 

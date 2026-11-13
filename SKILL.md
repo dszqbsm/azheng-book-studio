@@ -11,7 +11,8 @@ description: 围绕一本书制作20至40分钟中文深度解说，支持独立
 发布标题生成规则：每次生成或修改发布标题，必须同时输出小红书、抖音、视频号、快手四个平台适配版本，不能只交付通用标题。小红书≤20字、抖音≤30字、视频号≤16字，快手不设字数上限；标点、数字、字母、空格均计入字数。交付前校验并标注字数，超限应重写，不机械截断。规则配置见 configs/publishing.json，发布流程见 modules/publishing/GUIDE.md。
 新一期配音顺序：先完成除开场外的章节与结语，测量真实音频总时长，再按已确认音色语速估计开场时长，确定全片约数分钟。开场第一句固定为“XX分钟听完一本书，今天我们听《XXX》。”，其中XX为预计完整音频四舍五入到整数分钟的值，不使用初稿目标时长。开场内其他时长描述必须一致。最后生成开场、合并、重新测时；若最终四舍五入分钟数改变，只重做开场，保留正文。记录正文时长、开场时长、合并时长和版本哈希。试听可先试正文一小段。只有用户明确要求才提前合成开场。
 章节标题属于正式口播内容：默认朗读每章的章序与完整标题，以及结语标题；仅移除 Markdown 的 # 等格式标记，不得删除标题所在首行。只有用户明确要求时才省略标题。配音前核对标题与正文均在合成文本中，详见 modules/voice/GUIDE.md。
-所有命令使用本技能 scripts/studio.py 的绝对路径；工作目录参数 PROJECT 必须在源码目录外。使用已配置媒体 Python，不安装或调用 Story Studio。首次读 README.md 了解接口与限制。
+配音默认使用豆包语音合成大模型 2.0 的悠悠君子音色 `zh_male_youyoujunzi_uranus_bigtts`，资源 `seed-tts-2.0`，请求省略 model。读取 configs/voice.json，凭据来源见 modules/voice/GUIDE.md。
+所有命令使用本技能 scripts/studio.py 的绝对路径；工作目录参数 PROJECT 必须在源码目录外。使用已配置媒体 Python。首次读 README.md 了解接口与限制。
 
 只执行用户请求阶段；定稿后才可配音，付费前核对章节文本和配置，本次开发不得付费。真实完成情况用 status 检查；缺服务只输出任务队列，不声称已生成。
 
@@ -23,7 +24,7 @@ description: 围绕一本书制作20至40分钟中文深度解说，支持独立
 - voice --input 章节文本：默认拒绝付费；确认后 --paid-authorized。单章重试选该文件，保存新音频版本。记录参数哈希；不自动重试收费请求。
 - audio --input 最终MP3：导入并完整解码检查。章节音频用FFmpeg concat后导入；不要用旧章节拼接记录冒充最终版本。
 - merge-audio --input 合并清单.json：按清单顺序合并章节，章间额外停顿默认0.5秒（configs/defaults.json 的 chapter_pause_seconds），不在首尾添加；记录真实时长与输入哈希，不为凑分钟数延长停顿，不调用付费合成。
-- asr：用户确认最终音频无误后，本地 Coli 保存原始JSON；Agent自动对照对应版本定稿、校正转录文字并转换真实cue，详见modules/audio-alignment/GUIDE.md。不要求用户逐条核对识别错字。不得用字数估算时间。
+- asr：用户确认最终音频无误后，本地 Coli 保存原始JSON；Agent对照同版本定稿校字，使用 `scripts/subtitles.py` 的 `caption_boundaries` 按句末、逗号和分号拆分，用真实词元时间落点。单卡引用保留成对引号，跨卡引用在显示层移除外引号。详见 modules/audio-alignment/GUIDE.md。不得用字数估算时间。
 - storyboard --input cues.json --style 画风：按真实cue边界动态聚合；人工复核场景类型、切点与人物连续性。
 - queue：生成生图任务；用户要求继续配图时默认连续完成全部缺失镜头，不自行停在首张预览。逐张调用当前宿主生图工具或外部服务后保存到项目，填入每镜image相对路径并检查登记；已有有效图复用，单镜重做保留旧文件。详见modules/image-generation/GUIDE.md。
 - draft：默认交付黄色大字幕草稿。标准顺序为配音确认→本地转录→Agent按定稿校正→生成真实时间短句字幕→分镜与配图→含字幕剪映草稿。字幕制作是正式阶段，不必等用户再次要求；明确要求无字幕时才跳过。详见modules/video-editing/GUIDE.md。不自动导出MP4，不声称剪映播放验收。

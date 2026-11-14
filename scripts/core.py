@@ -1,6 +1,8 @@
 import json, hashlib, uuid, shutil, subprocess, re, math
 from pathlib import Path
 
+DEFAULT_IMAGE_ASPECT_RATIO = "16:9"
+
 def digest(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8-sig"))
 def save(p,data):
@@ -13,7 +15,7 @@ def init(p,title,minutes=30):
  if p.exists(): raise ValueError("Project already exists")
  if not 20<=minutes<=40: raise ValueError("Target duration must be 20–40 minutes")
  for d in ["chapters","audio","subtitles","images","cover","draft","research","benchmarks"]: (p/d).mkdir(parents=True,exist_ok=True)
- save(p/"book.json",dict(title=title,author="",publisher="",edition="",isbn="",product_url="",recommendation="",topic="",minutes=minutes,mode="A"))
+ save(p/"book.json",dict(title=title,author="",publisher="",edition="",isbn="",product_url="",recommendation="",topic="",minutes=minutes,mode="A",image_aspect_ratio=DEFAULT_IMAGE_ASPECT_RATIO))
  save(p/"project_state.json",dict(schema=1,artifacts={}))
  for name in ["outline.md","script.md"]: (p/name).write_text("",encoding="utf-8")
  return str(p)
@@ -49,6 +51,9 @@ def audio(p,source):
  record(p,"audio",meta,{"script.md":digest(p/"script.md"),str(target.relative_to(p)):digest(target)});return read(meta)
 def storyboard(p,cues_path,style):
  p=Path(p);a=read(p/"audio/final.json");c=read(cues_path)
+ ratio=read(p/"book.json").get("image_aspect_ratio",DEFAULT_IMAGE_ASPECT_RATIO)
+ width,height=image_ratio_parts(ratio)
+ composition="横构图" if width>height else "竖构图" if width<height else "方形构图"
  if not status(p)["artifacts"]["audio"]["valid"]: raise ValueError("Stale audio")
  if c["audio_sha256"]!=a["sha256"] or c["script_sha256"]!=digest(p/"script.md"): raise ValueError("Version mismatch")
  previous=0
@@ -63,8 +68,8 @@ def storyboard(p,cues_path,style):
   if cue["end"]-start>=limit or cue is c["cues"][-1]:
    end=cue["end"] if cue is not c["cues"][-1] else a["duration"]
    text="".join(x["text"] for x in group)
-   shots.append(dict(id=f"s{len(shots)+1:04}",start=start,end=end,narration=text,type=kind,image=None,status="pending",prompt=f"{style}；{text}；时代服饰准确，书房或历史意象，主体清晰，无文字无水印"));start=end;group=[]
- data=dict(schema=1,audio_sha256=a["sha256"],script_sha256=digest(p/"script.md"),duration=a["duration"],shots=shots)
+   shots.append(dict(id=f"s{len(shots)+1:04}",start=start,end=end,narration=text,type=kind,image=None,status="pending",prompt=f"{style}；{ratio} {composition}；{text}；时代服饰准确，书房或历史意象，主体清晰，无文字无水印"));start=end;group=[]
+ data=dict(schema=1,audio_sha256=a["sha256"],script_sha256=digest(p/"script.md"),duration=a["duration"],image_aspect_ratio=ratio,shots=shots)
  validate(data);save(p/"storyboard.json",data);record(p,"storyboard",p/"storyboard.json",{"script.md":digest(p/"script.md"),"audio/final.json":digest(p/"audio/final.json")});return data
  def_unused=0
 def validate(b):
@@ -74,6 +79,11 @@ def validate(b):
   ids.add(s["id"]);end=s["end"]
  if not ids or abs(end-b["duration"])>0.001: raise ValueError("Timeline duration mismatch")
  return True
+def image_ratio_parts(ratio):
+ if not isinstance(ratio,str) or not re.fullmatch(r"[1-9][0-9]*:[1-9][0-9]*",ratio):
+  raise ValueError("Image aspect ratio must have the form width:height")
+ return tuple(map(int,ratio.split(":")))
+
 def images(p):
  from PIL import Image
  p=Path(p);b=read(p/"storyboard.json");validate(b)
@@ -85,4 +95,8 @@ def images(p):
    im.verify()
   with Image.open(f) as im:
    if min(im.size)<64: raise ValueError("Image too small")
+   if "image_aspect_ratio" in b:
+    width,height=image_ratio_parts(b["image_aspect_ratio"])
+    if abs(im.width*height-im.height*width)>max(width,height):
+     raise ValueError(f"Image aspect ratio mismatch: {s['id']} ({im.width}x{im.height}, expected {b['image_aspect_ratio']})")
  return b

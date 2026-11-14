@@ -25,10 +25,15 @@ class CoreTests(unittest.TestCase):
    record(p,"audio",p/"audio/final.json",{"script.md":digest(p/"script.md")})
    cue=Path(t)/"cues.json";save(cue,dict(audio_sha256=digest(p/"audio/mock.wav"),script_sha256=digest(p/"script.md"),cues=[dict(start=0,end=10,text="一"),dict(start=10,end=20,text="二")]))
    b=storyboard(p,cue,"mock-style");self.assertTrue(validate(b))
+   self.assertEqual(b["image_aspect_ratio"],"16:9")
+   self.assertIn("16:9 横构图",b["shots"][0]["prompt"])
    with self.assertRaisesRegex(ValueError,"Missing image"): images(p)
    Image.new("RGB",(108,192)).save(p/"images/mock.png")
    for shot in b["shots"]: shot["image"]="images/mock.png"
-   save(p/"storyboard.json",b);self.assertEqual(len(images(p)["shots"]),1)
+   save(p/"storyboard.json",b)
+   with self.assertRaisesRegex(ValueError,"Image aspect ratio mismatch"): images(p)
+   Image.new("RGB",(192,108)).save(p/"images/mock.png")
+   self.assertEqual(len(images(p)["shots"]),1)
    wrong=read(cue);wrong["audio_sha256"]="wrong";save(cue,wrong)
    with self.assertRaisesRegex(ValueError,"Version mismatch"): storyboard(p,cue,"mock")
  def test_protocol(self):

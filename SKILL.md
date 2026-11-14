@@ -26,8 +26,9 @@ description: 围绕一本书制作20至40分钟中文深度解说，支持独立
 - merge-audio --input 合并清单.json：按清单顺序合并章节，章间额外停顿默认0.5秒（configs/defaults.json 的 chapter_pause_seconds），不在首尾添加；记录真实时长与输入哈希，不为凑分钟数延长停顿，不调用付费合成。
 - asr：用户确认最终音频无误后，本地 Coli 保存原始JSON；Agent对照同版本定稿校字，使用 `scripts/subtitles.py` 的 `caption_boundaries` 按句末、逗号和分号拆分，用真实词元时间落点。单卡引用保留成对引号，跨卡引用在显示层移除外引号。详见 modules/audio-alignment/GUIDE.md。不得用字数估算时间。
 - storyboard --input cues.json --style 画风：按真实cue边界动态聚合；人工复核场景类型、切点与人物连续性。
-- queue：生成生图任务；用户要求继续配图时默认连续完成全部缺失镜头，不自行停在首张预览。逐张调用当前宿主生图工具或外部服务后保存到项目，填入每镜image相对路径并检查登记；已有有效图复用，单镜重做保留旧文件。详见modules/image-generation/GUIDE.md。
-- draft：默认交付黄色大字幕草稿。标准顺序为配音确认→本地转录→Agent按定稿校正→生成真实时间短句字幕→分镜与配图→含字幕剪映草稿。字幕制作是正式阶段，不必等用户再次要求；明确要求无字幕时才跳过。详见modules/video-editing/GUIDE.md。不自动导出MP4，不声称剪映播放验收。
+- queue：生成生图任务。新分镜配图默认 16:9 横图，生图参数和逐镜提示词均使用分镜记录的比例。用户要求继续配图时默认连续完成全部缺失镜头，不自行停在首张预览。逐张调用当前宿主生图工具或外部服务后保存到项目，填入每镜image相对路径并检查登记；已有有效图复用，单镜重做保留旧文件。详见modules/image-generation/GUIDE.md。
+- draft：默认交付 16:9 横屏剪映草稿（1920×1080、30 fps），含白色粗体黑描边字幕。标准顺序为配音确认→本地转录→Agent按定稿校正→生成真实时间短句字幕→分镜与配图→含字幕剪映草稿。字幕制作是正式阶段，不必等用户再次要求；明确要求无字幕时才跳过。详见modules/video-editing/GUIDE.md。不自动导出MP4，不声称剪映播放验收。
+- 动态章节条：使用最终配音的真实章节时间表，剪映草稿在画面顶部展示分段、当前章高亮及播放进度。接续时读取本期 chapter_timeline，缺失时从最终配音的 ASR 核对并保存 subtitles/chapter_timeline.json。草稿左上角默认全程叠加「阿正」竖印，有章节条时置于其下方。详见 modules/video-editing/GUIDE.md。
 - status / doctor：检查版本或依赖。失效阶段从上游重新生成，已有效产物复用。
 
 人物年龄服装、年代地点、参考图与场景ID需在 research/visual-bible.json 记录并补全每镜独立提示词。未指定画风先询问。商业资料只记录 book.json，不擅加荐书话术。

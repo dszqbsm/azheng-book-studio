@@ -33,10 +33,13 @@ def main():
  elif c=="storyboard": result=storyboard(p,args.input,args.style)
  elif c=="images": result=images(p)
  elif c=="queue":
-  b=read(p/"storyboard.json");result=[dict(id=s["id"],prompt=s["prompt"],status=s["status"],references=[]) for s in b["shots"] if not s.get("image")];save(p/"images/queue.json",result)
+  b=read(p/"storyboard.json")
+  image_format={"aspect_ratio":b["image_aspect_ratio"]} if "image_aspect_ratio" in b else {}
+  result=[dict(id=s["id"],prompt=s["prompt"],status=s["status"],references=[],**image_format) for s in b["shots"] if not s.get("image")]
+  save(p/"images/queue.json",result)
  elif c=="draft":
   from draft import export
-  result=export(p)
+  result=export(p,chapter_timeline=args.input.resolve() if args.input else None)
  elif c=="doctor":
   import importlib.util
   result={n:bool(shutil.which(n)) for n in ["ffmpeg","ffprobe","coli"]};result.update({n:bool(importlib.util.find_spec(n)) for n in ["PIL","pyJianYingDraft","websockets"]})

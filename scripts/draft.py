@@ -2,13 +2,28 @@ from pathlib import Path
 import uuid, shutil, math
 from core import read, images, status, record, digest
 
-def export(p,width=1080,height=1920,fps=30):
+def export(p,width=None,height=None,fps=None,chapter_timeline=None):
  import pyJianYingDraft as d
  p=Path(p).resolve();b=images(p)
  if not all(x["valid"] for x in status(p)["artifacts"].values()): raise ValueError("Stale artifacts; regenerate affected stages")
  a=read(p/"audio/final.json");name="book_"+uuid.uuid4().hex[:12]
  config_root=Path(__file__).resolve().parents[1]/"configs"
  defaults=read(config_root/"defaults.json")
+ width=defaults["width"] if width is None else width
+ height=defaults["height"] if height is None else height
+ fps=defaults["fps"] if fps is None else fps
+ chapter_data=None
+ state_path=p/"STORY_PROJECT.json"
+ if chapter_timeline is None and state_path.is_file():
+  chapter_timeline=read(state_path).get("chapter_timeline")
+ if chapter_timeline is None and (p/"subtitles/chapter_timeline.json").is_file():
+  chapter_timeline="subtitles/chapter_timeline.json"
+ if chapter_timeline is not None:
+  from chapter_bar import load_chapters
+  chapter_path=(p/chapter_timeline).resolve()
+  if not chapter_path.is_relative_to(p):
+   raise ValueError("Chapter timeline must be inside the project")
+  chapter_data=load_chapters(p,chapter_path,a,fps)
  enabled=read(p/"book.json").get("subtitles",defaults.get("subtitles",True))
  captions=None
  if enabled:
@@ -41,11 +56,18 @@ def export(p,width=1080,height=1920,fps=30):
   for cue in captions["cues"]:
    start=round(round(cue["start"]*fps)*1000000/fps);end=round(round(cue["end"]*fps)*1000000/fps)
    if end<=start: raise ValueError("Subtitle shorter than one frame")
-   script.add_segment(d.TextSegment(cue["text"],d.Timerange(start,end-start),style=d.TextStyle(size=style["size"],bold=style["bold"],color=tuple(style["color"]),align=1,auto_wrapping=style["auto_wrapping"],max_line_width=style["max_line_width"]),border=d.TextBorder(width=style["border_width"]),clip_settings=d.ClipSettings(transform_y=style["position_y"])),"Subtitles")
+   script.add_segment(d.TextSegment(cue["text"],d.Timerange(start,end-start),style=d.TextStyle(size=style["size"],bold=style["bold"],color=tuple(style["color"]),align=1,auto_wrapping=style["auto_wrapping"],max_line_width=style["max_line_width"]),border=d.TextBorder(color=tuple(style["border_color"]),width=style["border_width"]),clip_settings=d.ClipSettings(transform_y=style["position_y"])),"Subtitles")
+ if chapter_data:
+  from chapter_bar import add_chapter_bar
+  add_chapter_bar(d,script,materials,width,height,fps,*chapter_data)
+ from brand_overlay import add_brand_overlay
+ seal_asset=config_root.parent/"assets/azheng-seal.png"
+ add_brand_overlay(d,script,seal_asset,materials,width,height,end,bool(chapter_data))
  script.save()
- record(p,"draft",root/name/"draft_content.json",{"storyboard.json":digest(p/"storyboard.json"),"audio/final.json":digest(p/"audio/final.json"),**{s["image"]:digest(p/s["image"]) for s in b["shots"]}})
+ inputs={"storyboard.json":digest(p/"storyboard.json"),"audio/final.json":digest(p/"audio/final.json"),**{s["image"]:digest(p/s["image"]) for s in b["shots"]}}
  if captions:
-  state=read(p/"project_state.json");state["artifacts"]["draft"]["inputs"]["subtitles/captions.json"]=digest(p/"subtitles/captions.json")
-  from core import save
-  save(p/"project_state.json",state)
+  inputs["subtitles/captions.json"]=digest(caption_path)
+ if chapter_data:
+  inputs[str(chapter_path.relative_to(p))]=digest(chapter_path)
+ record(p,"draft",root/name/"draft_content.json",inputs)
  return str(root/name)

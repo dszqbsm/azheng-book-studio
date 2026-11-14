@@ -37,7 +37,7 @@ description: 围绕一本书制作20至40分钟中文深度解说，支持独立
 默认使用 [Writing DNA V2.0](references/writing-dna-v2.md)。第二轮方法依据见 [68 条视频研究](references/competitor-research-68/README.md) 和 [V1/V2 对照](references/writing-dna-v1-v2-comparison.md)。用户用 Gemini 写稿时，提示词指定 V2 文件和本期原著证据，要求输出完整口播。
 
 读取 modules/book-writing/GUIDE.md。Codex负责原创提案和逐章创作，脚本负责校验、任务生成、统稿与报告，不使用假定的模型API。
-1. 整理 research/sources.json，创建 writing-plan.json（格式见references/writing-workflow-v1.md），先交付3至5选题及理由。
+1. 整理 research/sources.json，创建 writing-plan.json，按本期角度选择 book_type 和 A–H 主模式（格式见 references/writing-workflow-v1.md），先交付3至5选题及理由。给 Gemini 的提示词也应明确本期书型和对应的正文推进方式。
 2. `PY scripts/writing.py prepare PROJECT` 校验计划并输出选题、大纲和逐章任务。缺资料列gap，不编造引文。
 3. 依任务逐章写 chapters/编号.md，修改章节可只重新写该文件。
 4. `PY scripts/writing.py review PROJECT` 合并现有章节到script.md并生成script-review.json/md。未齐章、预算不足或证据未核验时标记未就绪，不自动进入配音。

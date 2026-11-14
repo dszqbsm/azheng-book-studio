@@ -24,6 +24,17 @@ class WritingTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as t:
    plan,sources=self.fixture(Path(t));plan["chapters"][0]["transition_question"]="无关问题";plan["chapters"][1]["evidence"]=[]
    issues=check(plan,sources);self.assertIn("001:broken_transition",issues);self.assertIn("002:missing_evidence",issues)
+ def test_book_type_reaches_writing_task_and_review(self):
+  with tempfile.TemporaryDirectory() as t:
+   p=Path(t);plan,sources=self.fixture(p)
+   plan["book_type"]="ideas";save(p/"writing-plan.json",plan)
+   self.assertEqual(prepare(p),[])
+   self.assertIn("原文证据",read(p/"writing-tasks/001.json")["body_structure"])
+   report=review(p)
+   self.assertEqual(report["book_type"],"ideas")
+   self.assertTrue(any("回收开场" in item for item in report["manual_review_required"]))
+   plan["book_type"]="unknown"
+   self.assertIn("book_type",check(plan,sources))
  def test_duplicate_and_incomplete_script(self):
   with tempfile.TemporaryDirectory() as t:
    p=Path(t);self.fixture(p);(p/"chapters").mkdir();text="这是明确用于测试重复段落识别的文字，我们用同一段内容放入不同章节，检查统稿是否发现问题。"

@@ -68,7 +68,7 @@ def storyboard(p,cues_path,style):
   if cue["end"]-start>=limit or cue is c["cues"][-1]:
    end=cue["end"] if cue is not c["cues"][-1] else a["duration"]
    text="".join(x["text"] for x in group)
-   shots.append(dict(id=f"s{len(shots)+1:04}",start=start,end=end,narration=text,type=kind,image=None,status="pending",prompt=f"{style}；{ratio} {composition}；{text}；时代服饰准确，书房或历史意象，主体清晰，无文字无水印"));start=end;group=[]
+   shots.append(dict(id=f"s{len(shots)+1:04}",start=start,end=end,narration=text,type=kind,image=None,status="pending",prompt=f"{style}；{ratio} {composition}；{text}；时代服饰准确，书房或历史意象，主体清晰，场景自然延伸到画框四边，画面连续满幅，无字幕预留区、底板、暗带、遮罩或黑边，无文字无水印"));start=end;group=[]
  data=dict(schema=1,audio_sha256=a["sha256"],script_sha256=digest(p/"script.md"),duration=a["duration"],image_aspect_ratio=ratio,shots=shots)
  validate(data);save(p/"storyboard.json",data);record(p,"storyboard",p/"storyboard.json",{"script.md":digest(p/"script.md"),"audio/final.json":digest(p/"audio/final.json")});return data
  def_unused=0

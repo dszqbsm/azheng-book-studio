@@ -24,7 +24,7 @@ class CoreTests(unittest.TestCase):
    save(p/"audio/final.json",dict(file="audio/mock.wav",sha256=digest(p/"audio/mock.wav"),duration=20))
    record(p,"audio",p/"audio/final.json",{"script.md":digest(p/"script.md")})
    cue=Path(t)/"cues.json";save(cue,dict(audio_sha256=digest(p/"audio/mock.wav"),script_sha256=digest(p/"script.md"),cues=[dict(start=0,end=10,text="一"),dict(start=10,end=20,text="二")]))
-   b=storyboard(p,cue,"mock-style");self.assertTrue(validate(b))
+   b=storyboard(p,cue,"mock-style");self.assertTrue(validate(b));self.assertIn("场景自然延伸到画框四边，画面连续满幅，无字幕预留区、底板、暗带、遮罩或黑边",b["shots"][0]["prompt"])
    self.assertEqual(b["image_aspect_ratio"],"16:9")
    self.assertIn("16:9 横构图",b["shots"][0]["prompt"])
    with self.assertRaisesRegex(ValueError,"Missing image"): images(p)

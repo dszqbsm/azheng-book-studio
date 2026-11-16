@@ -3,7 +3,10 @@ import argparse
 import json
 import hashlib
 import math
+import re
 from pathlib import Path
+
+CONFIG_PATH = Path(__file__).resolve().parents[1] / 'configs/publishing.json'
 
 
 def validate_titles(titles):
@@ -40,6 +43,20 @@ def validate_chapters(document):
     return result
 
 
+def validate_description_and_tags(description, tags, book_title, config):
+    if not isinstance(description, str) or not description.strip() or len(description.splitlines()) != 1:
+        raise ValueError('Description must be one nonempty line')
+    # Allow a final question or similarly punctuated quote.
+    body = description.strip().rstrip('”’」』"').rstrip('。！？!?')
+    if not body or '#' in description or re.search(r'[。！？!?]', body):
+        raise ValueError('Description must contain one sentence, with tags supplied separately')
+    title = book_title.strip().removeprefix('《').removesuffix('》').strip()
+    if not title or '#' in title or len(title.splitlines()) != 1:
+        raise ValueError('Invalid project book title')
+    if tags != [*config['tag_prefix'], '#' + title]:
+        raise ValueError('Expected the four fixed tags followed by the project book title tag')
+
+
 def validate_package(path):
     from PIL import Image
     path = Path(path).resolve()
@@ -48,14 +65,14 @@ def validate_package(path):
     titles = validate_titles(data.get('titles'))
     def nonempty(value):
         return isinstance(value, str) and bool(value.strip())
-    if not nonempty(data.get('description')):
-        raise ValueError('Missing description')
-    tags = data.get('tags')
-    if not isinstance(tags, list) or not tags or not all(nonempty(t) for t in tags):
-        raise ValueError('Missing recommended tags')
+    config = json.loads(CONFIG_PATH.read_text(encoding='utf-8'))
+    book = json.loads((project / 'book.json').read_text(encoding='utf-8-sig'))
+    validate_description_and_tags(data.get('description'), data.get('tags'), book['title'], config)
     collection = data.get('collection', {})
     if collection.get('action') not in ['existing', 'create', 'suggest_create'] or not all(nonempty(collection.get(k)) for k in ['name', 'description', 'reason']):
         raise ValueError('Missing collection recommendation')
+    if collection['name'] not in config['collections']:
+        raise ValueError('Choose one of the six configured collections')
     def local_file(value):
         if not nonempty(value) or Path(value).is_absolute():
             raise ValueError('Expected project-relative file path')
@@ -83,7 +100,6 @@ def validate_package(path):
         previous = start
     if chapters['chapters'][0]['start'] != 0:
         raise ValueError('Missing opening at 00:00')
-    config = json.loads((Path(__file__).resolve().parents[1] / 'configs/publishing.json').read_text(encoding='utf-8'))
     if set(data.get('covers', {})) != set(config['covers']['formats']):
         raise ValueError('Exactly two covers required: 3:4 and 4:3')
     cover_paths = {}

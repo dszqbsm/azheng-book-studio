@@ -24,6 +24,7 @@ def check(plan,sources):
  if plan.get("mode") not in list("ABCDEFGH") or not plan.get("mode_selection_rationale"): issues.append("mode_selection")
  if "book_type" in plan and (not isinstance(plan["book_type"],str) or plan["book_type"] not in BOOK_STRUCTURES): issues.append("book_type")
  if sum(c.get("target_hanzi",0) for c in chapters)!=plan.get("minutes",30)*300: issues.append("budget_total")
+ if plan.get("minutes",30)>30: issues.append("duration_limit")
  for i,c in enumerate(chapters):
   cid=c.get("chapter_id","?")
   for key in ["title","question","interpretation","transition_question","emotion_role","fact_notes","target_hanzi"]:
@@ -62,6 +63,7 @@ def review(p):
     if n in paragraphs: issues.append(c["chapter_id"]+":repeated_paragraph:"+paragraphs[n])
     else: paragraphs[n]=c["chapter_id"]
  script="\n\n".join(texts);target=p/"script.md"
+ if hanzi(script)>9000: issues.append("script_over_30_minute_budget")
  if target.exists() and target.read_text(encoding="utf-8")!=script: save(p/"script-history"/(digest(target)+".json"),dict(text=target.read_text(encoding="utf-8")))
  target.write_text(script,encoding="utf-8")
  report=dict(status="needs_review" if issues else "structural_checks_passed",issues=issues,book_type=plan.get("book_type"),chapter_hanzi=counts,total_hanzi=hanzi(script),target_hanzi=plan["minutes"]*300,estimated_minutes=hanzi(script)/300,actual_audio_minutes=None,ready_for_voice=False,manual_review_required=["事实与引文逐条核对","正文语义衔接",*STRUCTURE_REVIEW,"按 references/script-quality-rubric-v2.md 完成十维1至10分人工评分"],scope="deterministic structural checks; not semantic or factual certification")

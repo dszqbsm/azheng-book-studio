@@ -1,12 +1,22 @@
+import json
 import sys
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from publishing import validate_titles, validate_chapters
+from publishing import CONFIG_PATH, validate_description_and_tags, validate_titles, validate_chapters
 
 
 class PublishingTests(unittest.TestCase):
+    def test_description_and_fixed_tag_order(self):
+        config = json.loads(CONFIG_PATH.read_text(encoding='utf-8'))
+        tags = ['#读书', '#听书助眠', '#睡前听书', '#精读名著', '#容斋随笔']
+        validate_description_and_tags('《容斋随笔》：读史最怕的，是把故事当真。', tags, '《容斋随笔》', config)
+        with self.assertRaises(ValueError):
+            validate_description_and_tags('先看故事。再读历史。', tags, '容斋随笔', config)
+        with self.assertRaises(ValueError):
+            validate_description_and_tags('一句话。', tags[::-1], '容斋随笔', config)
+
     def test_chapter_name_limit(self):
         self.assertEqual(validate_chapters({'chapters': [{'title': '字' * 12}]} )[0]['characters'], 12)
         with self.assertRaises(ValueError):

@@ -56,7 +56,7 @@ def export(p,width=None,height=None,fps=None,chapter_timeline=None):
   for cue in captions["cues"]:
    start=round(round(cue["start"]*fps)*1000000/fps);end=round(round(cue["end"]*fps)*1000000/fps)
    if end<=start: raise ValueError("Subtitle shorter than one frame")
-   script.add_segment(d.TextSegment(cue["text"],d.Timerange(start,end-start),style=d.TextStyle(size=style["size"],bold=style["bold"],color=tuple(style["color"]),align=1,auto_wrapping=style["auto_wrapping"],max_line_width=style["max_line_width"]),border=d.TextBorder(color=tuple(style["border_color"]),width=style["border_width"]),clip_settings=d.ClipSettings(transform_y=style["position_y"])),"Subtitles")
+   script.add_segment(d.TextSegment(cue["text"],d.Timerange(start,end-start),style=d.TextStyle(size=style["size"],bold=style["bold"],color=tuple(style["color"]),align=1,auto_wrapping=style["auto_wrapping"],max_line_width=style["max_line_width"]),clip_settings=d.ClipSettings(transform_y=style["position_y"])),"Subtitles")
  if chapter_data:
   from chapter_bar import add_chapter_bar
   add_chapter_bar(d,script,materials,width,height,fps,*chapter_data)

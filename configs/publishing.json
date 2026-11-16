@@ -1,6 +1,8 @@
 {
   "source": "用户指定的发布约束，非平台规则实时查询",
   "require_all_platforms": true,
+  "tag_prefix": ["#读书", "#听书助眠", "#睡前听书", "#精读名著"],
+  "collections": ["思想新知", "认知成长", "社会运行", "经济金融", "文学人间", "历史兴衰"],
   "required_deliverables": ["platform_titles", "description", "recommended_tags", "chapter_timestamps", "collection_recommendation", "covers"],
   "covers": {
     "style_id": "historical-cinematic-ink-gold-v1",

@@ -10,10 +10,10 @@ def save(p,data):
  if p.exists():
   h=p.parent/".history";h.mkdir(exist_ok=True);shutil.copy2(p,h/(p.name+"."+uuid.uuid4().hex))
  temp=p.with_suffix(p.suffix+".tmp");temp.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding="utf-8");temp.replace(p)
-def init(p,title,minutes=30):
+def init(p,title,minutes=27):
  p=Path(p).resolve()
  if p.exists(): raise ValueError("Project already exists")
- if not 20<=minutes<=40: raise ValueError("Target duration must be 20–40 minutes")
+ if not 20<=minutes<=30: raise ValueError("Target duration must be 20–30 minutes")
  for d in ["chapters","audio","subtitles","images","cover","draft","research","benchmarks"]: (p/d).mkdir(parents=True,exist_ok=True)
  save(p/"book.json",dict(title=title,author="",publisher="",edition="",isbn="",product_url="",recommendation="",topic="",minutes=minutes,mode="A",image_aspect_ratio=DEFAULT_IMAGE_ASPECT_RATIO))
  save(p/"project_state.json",dict(schema=1,artifacts={}))

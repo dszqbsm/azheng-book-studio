@@ -1,6 +1,6 @@
 {
   "speaker": "zh_male_youyoujunzi_uranus_bigtts",
   "resource_id": "seed-tts-2.0",
-  "speech_rate": 0,
+  "speech_rate": 12,
   "loudness_rate": 0
 }

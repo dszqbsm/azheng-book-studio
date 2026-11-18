@@ -34,7 +34,7 @@ description: 围绕一本书制作20至30分钟中文深度解说，支持独立
 
 人物年龄服装、年代地点、参考图与场景ID需在 research/visual-bible.json 记录并补全每镜独立提示词。未指定画风先询问。商业资料只记录 book.json，不擅加荐书话术。
 
-配音分段以叙事切点为准。同一动作或问答尽量在同一次请求内合成，交付前逐个试听接缝。遇到语调突变，带前后文重录并在自然停顿处替换。详见 modules/voice/GUIDE.md。
+开场、每个正文完整章节和结语各发一次合成请求，正文请求包含章序、完整标题和全部正文。章内不拆请求或拼接。交付前核对每章全文覆盖并逐个试听章间接缝，章内语调反复不接时优先重录整章。详见 modules/voice/GUIDE.md。
 
 ## V2.0 写作可执行路径
 默认使用 [Writing DNA V2.0](references/writing-dna-v2.md)。第二轮方法依据见 [68 条视频研究](references/competitor-research-68/README.md) 和 [V1/V2 对照](references/writing-dna-v1-v2-comparison.md)。用户用 Gemini 写稿时，提示词指定 V2 文件和本期原著证据，要求输出完整口播。

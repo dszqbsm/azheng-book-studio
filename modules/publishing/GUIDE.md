@@ -2,7 +2,7 @@
 
 ## 按竞品研究制作发布内容
 
-“按 azheng 准备发布”“给我发布前需要的东西”均执行本节。先读本期定稿和最终时间轴，再参考 [标题框架](../../references/title-frameworks-v1.md)、[封面信息层级](../../references/cover-style-v2-candidate.md) 和 [竞品研究总报告](../../references/competitor-research-68/reports/competitor-research-final.md)。封面信息层级用于本期文案与构图，制作规格按发布配置和封面风格指南执行。
+“按 azheng 准备发布”“给我发布前需要的东西”均执行本节。先读本期定稿和最终时间轴，再参考 [标题框架](../../references/title-frameworks-v1.md)、[系列听书封面](../../references/cover-style-v2.md) 和 [竞品研究总报告](../../references/competitor-research-68/reports/competitor-research-final.md)。封面信息层级用于本期文案与构图，制作规格按发布配置和封面风格指南执行。
 
 1. 从定稿提炼一个观众能理解、正文确实回答的问题。选一个能支撑它的人物行动、结果反差或具体场景，作为本期包装的共同依据。
 2. 四平台标题围绕同一个问题，各自按字数约束组织。可用书名加具体疑问、结果反差或人物命运关口。标题省略书名时，封面应补足书名。按下文交付一句话简介、五个标签及一个合集归属。
@@ -29,7 +29,7 @@
 
 ## 发布前固定交付
 
-这是作品制作的固定收尾阶段。用户要求准备发布时，连续完成并一次性交付全部内容：四平台标题、简介、标签、章节时间表、合集建议及3:4和4:3两张完整封面。不要逐项等待用户索要，也不把封面提示词当作成图交付。缺最终音视频等真实依据时说明具体缺口，完成其余可独立工作。封面固定风格与尺寸读取 references/cover-style-v1.md 和 configs/publishing.json；只生成这两种比例，旧版其他比例保留但不纳入新发布包。
+这是作品制作的固定收尾阶段。用户要求准备发布时，连续完成并一次性交付全部内容：四平台标题、简介、标签、章节时间表、合集建议及3:4和4:3两张完整封面。不要逐项等待用户索要，也不把封面提示词当作成图交付。缺最终音视频等真实依据时说明具体缺口，完成其余可独立工作。封面固定风格与尺寸读取 references/cover-style-v2.md 和 configs/publishing.json；只生成这两种比例，旧版其他比例保留但不纳入新发布包。
 
 将本期完整发布包保存为 PROJECT/publishing/package_v01.json，包含 titles（四平台标题对象）、description（简介）、tags（非空字符串列表）、collection（action/name/description/reason）、chapters_file（相对项目路径）、covers（以3:4、4:3为键的相对项目图片路径）。collection.action为existing、create或suggest_create；已有合集未知时用suggest_create，说明只是建议。修改另存版本。
 

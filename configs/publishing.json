@@ -5,8 +5,8 @@
   "collections": ["思想新知", "认知成长", "社会运行", "经济金融", "文学人间", "历史兴衰"],
   "required_deliverables": ["platform_titles", "description", "recommended_tags", "chapter_timestamps", "collection_recommendation", "covers"],
   "covers": {
-    "style_id": "historical-cinematic-ink-gold-v1",
-    "style_guide": "references/cover-style-v1.md",
+    "style_id": "book-scene-editorial-v2",
+    "style_guide": "references/cover-style-v2.md",
     "formats": {
       "3:4": {"width": 1080, "height": 1440},
       "4:3": {"width": 1440, "height": 1080}

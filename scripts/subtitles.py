@@ -20,7 +20,7 @@ def caption_boundaries(source, max_quote_chars=30):
     protected = set()
     for start, end in quotes:
         quoted = source[start:end + 1]
-        if len("".join(quoted.split())) <= max_quote_chars and not re.search(r'[，,；;]', quoted):
+        if len("".join(quoted.split())) <= max_quote_chars and not re.search(r'[，,；;、]', quoted):
             protected.update(range(start + 1, end + 1))
         else:
             remove.update((start, end))
@@ -28,7 +28,7 @@ def caption_boundaries(source, max_quote_chars=30):
     for match in re.finditer(r'[，。！？；：、,.!?;:]+[”’」』"）》】]*|\n+', source):
         end = match.end()
         if end not in protected:
-            cuts[end] = bool(re.search(r'[，,；;。！？.!?\n]', match.group()))
+            cuts[end] = bool(re.search(r'[，,；;、。！？.!?\n]', match.group()))
     for start, end in quotes:
         if start + 1 in protected and end + 1 not in protected:
             after = end + 1

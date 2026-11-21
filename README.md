@@ -1,6 +1,6 @@
 # azheng-book-studio
 
-新讲书文稿默认使用 [Writing DNA V2.0](references/writing-dna-v2.md)。发布封面使用 V1。研究证据见 [68 条视频研究](references/competitor-research-68/README.md)。
+新讲书文稿默认使用 [Writing DNA V3.0](references/writing-dna-v3.md)。先打磨开头钩子，再按本期文稿形式推进，Gemini 可直接使用其中的单段提示词。发布封面使用 [系列听书封面 V2](references/cover-style-v2.md)。研究证据见 [68 条视频研究](references/competitor-research-68/README.md)。
 
 ## 发布前一次性交付
 
@@ -18,5 +18,6 @@ Agent准备完整发布内容与成图后，用已配置Python执行 `PY /技能
 当前限制：自动精确音文对齐、SRT、章节拼接命令、配置全量贯通、智能场景分类和生图服务适配尚未完整实现；详见交付报告。不能据此宣称生产全链路验收。
 
 
-## V2.0 写作
-新创作读取 references/writing-dna-v2.md 和 references/narrative-structures-v2.md。现有写作计划及 A–H 编码继续适用。运行scripts/writing.py prepare PROJECT生成校验后方案、大纲与写作任务；Codex写各章后运行review PROJECT统稿。数据格式见references/writing-workflow-v1.md。实际示例见examples/caigentan-v1，只有前两章样稿，非完整30分钟文稿。语义、事实和 V2 十维评分由 Agent 完成。
+## V3.0 写作
+
+现有写作计划及 A–H 编码继续适用。运行 `scripts/writing.py prepare PROJECT` 生成校验后的方案、大纲与写作任务，逐章写稿后运行 `review PROJECT` 统稿。数据格式见 [写作工作流](references/writing-workflow-v1.md)，示例见 `examples/caigentan-v1` 的前两章。人工审稿先过 V3 的开头钩子，再核对语义、事实与 V2 十维评分。

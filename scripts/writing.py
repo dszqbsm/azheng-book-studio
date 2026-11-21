@@ -1,7 +1,9 @@
-"""V2 authoring support; no model calls and no benchmark transcript reads."""
+"""Prepare writing tasks and review drafts against the current writing rules."""
 import argparse,json,re
 from pathlib import Path
 from core import read,save,digest,record
+
+WRITING_RULES = ["references/writing-dna-v3.md", "references/narrative-structures-v2.md"]
 
 BOOK_STRUCTURES = {
  "story": "文学叙事：围绕人物处境、选择与后果推进。每章交代这次选择怎样改变下一章的处境。",
@@ -10,10 +12,10 @@ BOOK_STRUCTURES = {
  "ideas": "思想与处世：从具体两难切入，按理解顺序引入概念，每个核心概念配原文证据和可理解的案例。",
 }
 STRUCTURE_REVIEW = [
- "开头留下一个正文能用证据回答的问题",
+ "先念一遍开头，确认听众能说出接下来最想知道什么，第一场戏或案例能自然接上，正文能兑现",
  "按本期书型逐章检查：每章推动一个变化，或回答一个独立的子问题",
- "正文现代类比只用于解释，解释后回到原著或案例",
- "结语先用正文细节回收开场问题或画面，再展开与今天的关系",
+ "按本期文稿形式决定解读分量，借助现代类比时用具体事例讲清适用条件",
+ "结语用正文细节回收开场问题或画面，按本期文稿形式收束",
 ]
 
 def hanzi(s): return len(re.findall(r"[\u4e00-\u9fff]",s))
@@ -41,13 +43,13 @@ def prepare(p):
  p=Path(p);plan=read(p/"writing-plan.json");sources=read(p/"research/sources.json");issues=check(plan,sources)
  book_type=plan.get("book_type")
  structure=BOOK_STRUCTURES.get(book_type) if isinstance(book_type,str) else None
- if structure is None: structure="沿用本期主模式，根据正文主要讲述对象选用 Writing DNA V2.0 的书型规则。"
+ if structure is None: structure="沿用本期主模式，根据本期任务选用 Writing DNA V3.0 对应的文稿形式。"
  (p/"chapters").mkdir(exist_ok=True);(p/"writing-tasks").mkdir(exist_ok=True)
  proposals="\n\n".join(f"## {x['title']}\n问题：{x['question']}\n观点：{x['answer']}\n理由：{x['reason']}\n素材：{x['evidence']}\n缺口：{x['gaps']}" for x in plan["proposals"])
  (p/"topic-proposals.md").write_text(proposals,encoding="utf-8")
  (p/"outline.md").write_text("# "+plan["core_question"]+"\n主模式："+plan["mode"]+"；"+plan["mode_selection_rationale"]+"\n\n"+"\n\n".join(json.dumps(c,ensure_ascii=False,indent=2) for c in plan["chapters"]),encoding="utf-8")
  for c in plan["chapters"]:
-  save(p/"writing-tasks"/(c["chapter_id"]+".json"),dict(rules=["references/writing-dna-v2.md","references/narrative-structures-v2.md"],core_question=plan["core_question"],book_type=book_type,body_structure=structure,structure_review=STRUCTURE_REVIEW,chapter=c,sources={sid:sources[sid] for sid in c.get("evidence",[]) if sid in sources},instruction="写原创纯口播，明确解释与引文边界；未核验不得引作事实；段尾自然交给下一问。"))
+  save(p/"writing-tasks"/(c["chapter_id"]+".json"),dict(rules=WRITING_RULES,core_question=plan["core_question"],book_type=book_type,body_structure=structure,structure_review=STRUCTURE_REVIEW,chapter=c,sources={sid:sources[sid] for sid in c.get("evidence",[]) if sid in sources},instruction="写原创纯口播，区分解释与引文，以核实资料为依据，段尾自然交给下一问。"))
  save(p/"plan-check.json",dict(issues=issues,ready=not issues));return issues
 
 def review(p):

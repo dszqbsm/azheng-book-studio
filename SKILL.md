@@ -1,6 +1,6 @@
 ---
 name: azheng-book-studio
-description: 围绕一本书制作20至30分钟中文深度解说，支持独立研究写稿、章节配音、真实时间分镜、生图任务及剪映草稿。
+description: 制作中文书籍解说和合集单集，支持独立研究写稿、章节配音、真实时间分镜、生图任务及剪映草稿。
 ---
 
 # 阿正讲书工坊
@@ -9,15 +9,15 @@ description: 围绕一本书制作20至30分钟中文深度解说，支持独立
 所有平台发布章节名统一不超过12字，尽量简短；章序、标点、空格若写入名称也计数，时间戳不计入名称。每次交付前校验，保留完整口播标题与真实时间。发布前还需给出合集归属建议：从发布指南的六类合集选择，确认存在时建议归入，否则建议新建；未知已有合集时不假定其存在，不自动创建或发布。
 章节时间必须来自最终音频/视频的真实时间轴，涵盖开场、正文各章和结语；不得按字数估时或沿用修补前的时间。
 发布标题生成规则：每次生成或修改发布标题，必须同时输出小红书、抖音、视频号、快手四个平台适配版本，不能只交付通用标题。小红书≤20字、抖音≤30字、视频号≤16字，快手不设字数上限；标点、数字、字母、空格均计入字数。交付前校验并标注字数，超限应重写，不机械截断。规则配置见 configs/publishing.json，发布流程见 modules/publishing/GUIDE.md。
-封面与开场共用时长档位。用 `studio.py runtime-label PROJECT --seconds 秒数` 核对估时，合并后省略 --seconds 读取最终音频实测值。
-新一期配音顺序：先完成除开场外的章节与结语，测量真实音频总时长，再按已确认音色语速估计开场时长，确定全片约数分钟。开场第一句固定为“XX分钟听完一本书，今天我们听《XXX》。”，其中XX为预计完整音频四舍五入到最近十分钟的值（25 分钟整进入 30 分钟档），不使用初稿目标时长。开场内其他时长描述必须一致。最后生成开场、合并、重新测时；若最终四舍五入分钟数改变，只重做开场，保留正文。记录正文时长、开场时长、合并时长和版本哈希。试听可先试正文一小段。只有用户明确要求才提前合成开场。
+封面与开场使用分钟文案时，共用实际时长档位。用 `studio.py runtime-label PROJECT --seconds 秒数` 核对估时，合并后省略 --seconds 读取最终音频实测值。
+新一期先配正文各章和结语并测时，再定开场。开场先按 Writing DNA V3.0 建立钩子，随后自然报书名和本期范围。整本解说若报分钟档，按预计完整音频取最近十分钟（25:00 归 30 分钟档）。合集单集说清选篇或本期问题。合并后复核实际时长，如已播报的分钟档有变，只重做开场，保留正文。记录正文、开场和合并时长及版本哈希。试听可先试正文一小段。只有用户明确要求才提前合成开场。
 章节标题属于正式口播内容：默认朗读每章的章序与完整标题，以及结语标题；仅移除 Markdown 的 # 等格式标记，不得删除标题所在首行。只有用户明确要求时才省略标题。配音前核对标题与正文均在合成文本中，详见 modules/voice/GUIDE.md。
 配音默认使用豆包语音合成大模型 2.0 的悠悠君子音色 `zh_male_youyoujunzi_uranus_bigtts`，资源 `seed-tts-2.0`，默认语速 +12、音量 0，请求省略 model。读取 configs/voice.json，凭据来源见 modules/voice/GUIDE.md。
 所有命令使用本技能 scripts/studio.py 的绝对路径；工作目录参数 PROJECT 必须在源码目录外。使用已配置媒体 Python。首次读 README.md 了解接口与限制。
 
 只执行用户请求阶段；定稿后才可配音，付费前核对章节文本和配置，本次开发不得付费。真实完成情况用 status 检查；缺服务只输出任务队列，不声称已生成。
 
-新讲书创作必须先读 references/writing-dna-v2.md 和 references/narrative-structures-v2.md。V1 结构库保留 A–H 编码，选定一个主模式，并可使用 V2 组合。日常不读取 benchmark/transcripts。方法研究先读 benchmark/INDEX.md 和 analysis/ten-sample-analysis-v1.md；只有验证具体争议时按metadata定位单篇原稿；数据比较才读metrics.csv。对标不作为新书事实来源。整理 research/sources.json：来源URL、版本页码、摘录、观点、核验状态；每个核心论点关联来源。生成3至5角度，选择一个贯穿问题，选择A至H结构，写 outline.md，分章写 chapters，整合纯口播 script.md。引用原著与现代阐释分开，不编造原句。
+新讲书创作先读 [Writing DNA V3.0](references/writing-dna-v3.md)，按本期文稿形式打磨开头。日常写作使用本期原著和核实资料。方法研究从 [V1 样本索引](references/benchmark/INDEX.md) 或 [第二轮研究](references/competitor-research-68/README.md) 按需查证。
 
 命令：`PY scripts/studio.py COMMAND PROJECT [OPTIONS]`
 - init --title 书名 --minutes 27：创建独立一期。
@@ -36,16 +36,16 @@ description: 围绕一本书制作20至30分钟中文深度解说，支持独立
 
 开场、每个正文完整章节和结语各发一次合成请求，正文请求包含章序、完整标题和全部正文。章内不拆请求或拼接。章间语调跳变且用户确认同会话连读短样后，可将相邻完整章节放进一次会话，必要时覆盖全稿，并试听成品章间过渡。交付前核对每章全文覆盖并逐个试听章间接缝，章内语调反复不接时优先重录整章。详见 modules/voice/GUIDE.md。
 
-## V2.0 写作可执行路径
-默认使用 [Writing DNA V2.0](references/writing-dna-v2.md)。第二轮方法依据见 [68 条视频研究](references/competitor-research-68/README.md) 和 [V1/V2 对照](references/writing-dna-v1-v2-comparison.md)。用户用 Gemini 写稿时，提示词指定 V2 文件和本期原著证据，要求输出完整口播。
+## V3.0 写作可执行路径
+Gemini 写稿用 [V3 的单段提示词](references/writing-dna-v3.md#给-gemini-的单段提示词)，指定本期文稿形式、书名或选篇、原著证据、听众收获和时长，重点说明开头钩子，直接交付完整口播。
 
 读取 modules/book-writing/GUIDE.md。Codex负责原创提案和逐章创作，脚本负责校验、任务生成、统稿与报告，不使用假定的模型API。
-1. 整理 research/sources.json，创建 writing-plan.json，按本期角度选择 book_type 和 A–H 主模式（格式见 references/writing-workflow-v1.md），先交付3至5选题及理由。给 Gemini 的提示词也应明确本期书型和对应的正文推进方式。
+1. 整理 research/sources.json，创建 writing-plan.json，按本期角度选择 book_type 和 A–H 主模式（格式见 references/writing-workflow-v1.md），先交付3至5选题及理由。
 2. `PY scripts/writing.py prepare PROJECT` 校验计划并输出选题、大纲和逐章任务。缺资料列gap，不编造引文。
 3. 依任务逐章写 chapters/编号.md，修改章节可只重新写该文件。
 4. `PY scripts/writing.py review PROJECT` 合并现有章节到script.md并生成script-review.json/md。未齐章、预算不足或证据未核验时标记未就绪，不自动进入配音。
-新稿默认以约 27 分钟、8100 汉字为预算，含开场、章标题和结语；给 Gemini 的提示词也使用该预算。最终成片实测不得超过 30:00，包含停顿和任何额外片头片尾。超时先精简稿件，再复核受影响的音频和时间轴。封面档位仍按实测时长取整。
-脚本的衔接检查是显式字段一致性检查，语义、事实及 V2 十维评分由 Codex 另行审稿。
+常规整本解说约 27 分钟、8,100 汉字，含开场、章标题和结语。分集按当期选篇和内容确定预算，成片实测上限 30:00。超时先精简稿件，再复核受影响的音频和时间轴。
+脚本的衔接检查是显式字段一致性检查。Codex 先按 V3 审开头吸引力与正文承接，再核对语义、事实和 V2 十维评分。
 
 - 每个分镜必须带来可辨认的新画面信息，例如新增动作、表情变化、人物关系、关键物件或场景变化。相邻两镜缺少新增信息时合并为一镜，按原有真实语音时间覆盖两段，保留口播和字幕时轴，允许延长展示。只换机位、景别或轻微构图时，以是否增加叙事信息判断。禁止把同一张图绑定到任何两个分镜；跨段回访若必须保留切点，设计并生成有新增信息的独立画面。
 

@@ -37,7 +37,7 @@ description: 制作中文书籍解说和合集单集，支持独立研究写稿�
 开场、每个正文完整章节和结语各发一次合成请求，正文请求包含章序、完整标题和全部正文。章内不拆请求或拼接。章间语调跳变且用户确认同会话连读短样后，可将相邻完整章节放进一次会话，必要时覆盖全稿，并试听成品章间过渡。交付前核对每章全文覆盖并逐个试听章间接缝，章内语调反复不接时优先重录整章。详见 modules/voice/GUIDE.md。
 
 ## V3.0 写作可执行路径
-Gemini 写稿用 [V3 的单段提示词](references/writing-dna-v3.md#给-gemini-的单段提示词)，指定本期文稿形式、书名或选篇、原著证据、听众收获和时长，重点说明开头钩子，直接交付完整口播。
+给 Gemini 生成提示词时，用[可在新会话直接使用的单段提示词](references/writing-dna-v3.md#给-gemini-的单段提示词)，交代当期内容、出处、篇幅和完整口播的交付要求。强调开头几句话的钩子和正文持续的收听期待，具体写法由 Gemini 决定。用户指定 DNA 或模板时再把文件名写进提示词。
 
 读取 modules/book-writing/GUIDE.md。Codex负责原创提案和逐章创作，脚本负责校验、任务生成、统稿与报告，不使用假定的模型API。
 1. 整理 research/sources.json，创建 writing-plan.json，按本期角度选择 book_type 和 A–H 主模式（格式见 references/writing-workflow-v1.md），先交付3至5选题及理由。

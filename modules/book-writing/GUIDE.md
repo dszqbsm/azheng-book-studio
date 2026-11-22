@@ -4,6 +4,8 @@
 
 [单本小说解说](../../references/writing-dna-v3.md#小说解说)的提示词直接交代作者、书名、篇幅和故事听感。强调原著依据、开头几句话的吸引力和正文自然设置的钩子。账号名和合集归属在发布阶段处理。同书连载可在提示词中交代账号和集号。
 
+[《聊斋志异》合集](../../references/writing-dna-v3.md#聊斋志异合集)的提示词写明「阿正读人间」、集号、原著选篇和篇幅，强调奇谈感、开头几句话和正文的自然钩子。几篇合讲时给出共同看点，具体怎么讲由 Gemini 决定。
+
 Codex 逐章写作时，按 [叙事结构](../../references/narrative-structures-v2.md) 和 [计划格式](../../references/writing-workflow-v1.md) 准备 3 至 5 个选题、章节卡和来源表。运行 `writing.py prepare`，写入 `chapters/编号.md`，再运行 `review` 生成纯口播 `script.md` 和报告。重写单章后重新统稿。
 
 脚本检查结构、显式衔接、重复段落和预算。人工先念一遍开头，确认听众想追问什么，以及正文从哪里接上，再复核引文、事实、叙事和 [V2 十维量表](../../references/script-quality-rubric-v2.md)。缺章或未满预算的样稿标明实际范围。

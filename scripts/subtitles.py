@@ -6,7 +6,7 @@ from pathlib import Path
 
 from core import read, save
 
-DASHES = "—⸺"
+CLAUSE_BREAKS = "：:—⸺"
 
 
 def caption_boundaries(source, max_quote_chars=30):
@@ -23,22 +23,22 @@ def caption_boundaries(source, max_quote_chars=30):
     quote_ends = {end + 1 for _, end in quotes}
     for start, end in quotes:
         quoted = source[start:end + 1]
-        inner_break = re.search(rf'[，,；;、]|\w\W*[{DASHES}]+\W*\w', quoted)
+        inner_break = re.search(rf'[，,；;、]|\w\W*[{CLAUSE_BREAKS}]+\W*\w', quoted)
         if len("".join(quoted.split())) <= max_quote_chars and not inner_break:
             protected.update(range(start + 1, end + 1))
         else:
             remove.update((start, end))
     cuts = {}
-    for match in re.finditer(rf'[，。！？；：、,.!?;:{DASHES}]+[”’」』"）》】]*|\n+', source):
+    for match in re.finditer(rf'[，。！？；、,.!?;{CLAUSE_BREAKS}]+[”’」』"）》】]*|\n+', source):
         end = match.end()
         punctuation = match.group()
-        dash_at_quote_end = end in quote_ends and any(char in DASHES for char in punctuation)
-        if end not in protected or dash_at_quote_end:
-            cuts[end] = bool(re.search(rf'[，,；;、。！？.!?\n{DASHES}]', punctuation))
+        clause_break_at_quote_end = end in quote_ends and any(char in CLAUSE_BREAKS for char in punctuation)
+        if end not in protected or clause_break_at_quote_end:
+            cuts[end] = True
     for start, end in quotes:
         if start + 1 in protected and end + 1 not in protected:
             after = end + 1
-            while after < len(source) and source[after] in '，。！？；：、,.!?;:' + DASHES:
+            while after < len(source) and source[after] in '，。！？；、,.!?;' + CLAUSE_BREAKS:
                 after += 1
             if end - start > 12 or source[:start].rstrip().endswith(('：', ':')):
                 cuts[start] = cuts[after] = True
@@ -46,7 +46,7 @@ def caption_boundaries(source, max_quote_chars=30):
 
 
 def clean_ending(text):
-    return re.sub(rf'[，。！？；：、,.!?;:…{DASHES}]+(?=[”’」』）》】]*$)', '', text.rstrip()).rstrip()
+    return re.sub(rf'[，。！？；、,.!?;…{CLAUSE_BREAKS}]+(?=[”’」』）》】]*$)', '', text.rstrip()).rstrip()
 
 
 def validate_short_cues(cues):

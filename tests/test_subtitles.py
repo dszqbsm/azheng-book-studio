@@ -40,6 +40,25 @@ class SubtitleTests(unittest.TestCase):
         self.assertEqual(caption_boundaries('“等等——”'), ([(6, True)], set()))
         self.assertEqual(clean_ending('“等等——”'), '“等等”')
 
+    def test_colons_are_required_boundaries(self):
+        for colon in ('：', ':'):
+            with self.subTest(colon=colon):
+                text = f'原因{colon}另有安排'
+                self.assertEqual(caption_boundaries(text), ([(3, True)], set()))
+                with self.assertRaisesRegex(ValueError, 'ASR timestamps'):
+                    validate_short_cues([{'text': text}])
+                self.assertEqual(clean_ending(f'原因{colon}'), '原因')
+        self.assertEqual(caption_boundaries('原因：先等——再走'), ([(3, True), (7, True)], set()))
+
+    def test_colon_inside_quotes_and_at_quote_end(self):
+        text = '“原则：先问再做”'
+        self.assertEqual(caption_boundaries(text), ([(4, True)], {0, len(text) - 1}))
+        with self.assertRaisesRegex(ValueError, 'ASR timestamps'):
+            validate_short_cues([{'text': text}])
+        self.assertEqual(caption_boundaries('“等等：”'), ([(5, True)], set()))
+        self.assertEqual(clean_ending('“等等：”'), '“等等”')
+        self.assertEqual(caption_boundaries('他说：“等等！”'), ([(3, True), (8, True)], set()))
+
     def test_preserve_book_marks_and_inner_punctuation(self):
         self.assertEqual(clean_ending('今天，我们听《菜根谭》。'), '今天，我们听《菜根谭》')
         self.assertEqual(clean_ending('他说：“慢一点！”'), '他说：“慢一点”')

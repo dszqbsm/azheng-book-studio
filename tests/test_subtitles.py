@@ -22,6 +22,24 @@ class SubtitleTests(unittest.TestCase):
         self.assertEqual(caption_boundaries(text), ([(4, True), (8, True)], {0, len(text) - 1}))
         self.assertEqual(clean_ending('刘备、'), '刘备')
 
+    def test_split_at_dashes(self):
+        for dash in ('——', '—', '⸺'):
+            text = f'前半句{dash}后半句'
+            with self.subTest(dash=dash):
+                self.assertEqual(caption_boundaries(text), ([(3 + len(dash), True)], set()))
+                with self.assertRaisesRegex(ValueError, 'ASR timestamps'):
+                    validate_short_cues([{'text': text}])
+                self.assertEqual(clean_ending(f'前半句 {dash}'), '前半句')
+        self.assertEqual(caption_boundaries('A-B'), ([], set()))
+
+    def test_dash_inside_quotes_and_at_quote_end(self):
+        text = '“前半句——后半句”'
+        self.assertEqual(caption_boundaries(text), ([(6, True)], {0, len(text) - 1}))
+        with self.assertRaisesRegex(ValueError, 'ASR timestamps'):
+            validate_short_cues([{'text': text}])
+        self.assertEqual(caption_boundaries('“等等——”'), ([(6, True)], set()))
+        self.assertEqual(clean_ending('“等等——”'), '“等等”')
+
     def test_preserve_book_marks_and_inner_punctuation(self):
         self.assertEqual(clean_ending('今天，我们听《菜根谭》。'), '今天，我们听《菜根谭》')
         self.assertEqual(clean_ending('他说：“慢一点！”'), '他说：“慢一点”')

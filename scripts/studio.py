@@ -2,6 +2,23 @@ import argparse,json,os,asyncio,uuid,subprocess
 from pathlib import Path
 from core import *
 
+IMAGE_BACKENDS = ("codex", "devpool")
+
+
+def image_backend(project, selection):
+    if not project.is_dir():
+        raise ValueError("Project directory does not exist")
+    path = project / "images" / "backend.json"
+    current = read(path).get("image_backend") if path.exists() else None
+    if selection is None:
+        if current is not None and current not in IMAGE_BACKENDS:
+            raise ValueError("Invalid image backend in images/backend.json")
+        return {"image_backend": current}
+    result = {"image_backend": selection}
+    if current != selection:
+        save(path, result)
+    return result
+
 
 def voice_api_key():
  key = os.environ.get("AZHENG_DOUBAO_API_KEY", "").strip()
@@ -22,7 +39,11 @@ def voice_api_key():
 
 
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("command",choices=["init","status","script","audio","merge-audio","storyboard","queue","images","draft","doctor","voice","asr","runtime-label"]);ap.add_argument("project",type=Path);ap.add_argument("--input",type=Path);ap.add_argument("--title",default="新书");ap.add_argument("--minutes",type=int,default=27);ap.add_argument("--style",default="historical-realism");ap.add_argument("--paid-authorized",action="store_true");ap.add_argument("--seconds",type=float);args=ap.parse_args();p=args.project.resolve();c=args.command
+ ap=argparse.ArgumentParser();ap.add_argument("command",choices=["init","status","script","audio","merge-audio","storyboard","queue","images","image-backend","draft","doctor","voice","asr","runtime-label"]);ap.add_argument("project",type=Path);ap.add_argument("--input",type=Path);ap.add_argument("--title",default="新书");ap.add_argument("--minutes",type=int,default=27);ap.add_argument("--style",default="historical-realism");ap.add_argument("--paid-authorized",action="store_true");ap.add_argument("--seconds",type=float)
+ ap.add_argument("--backend", choices=IMAGE_BACKENDS, help="Record the confirmed backend for image-backend")
+ args=ap.parse_args();p=args.project.resolve();c=args.command
+ if args.backend is not None and c != "image-backend":
+  ap.error("--backend is only valid with image-backend")
  if c=="init": result=init(p,args.title,args.minutes)
  elif c=="status": result=status(p)
  elif c=="runtime-label":
@@ -36,6 +57,7 @@ def main():
   result=merge_audio(p,args.input)
  elif c=="storyboard": result=storyboard(p,args.input,args.style)
  elif c=="images": result=images(p)
+ elif c=="image-backend": result=image_backend(p,args.backend)
  elif c=="queue":
   b=read(p/"storyboard.json")
   image_format={"aspect_ratio":b["image_aspect_ratio"]} if "image_aspect_ratio" in b else {}

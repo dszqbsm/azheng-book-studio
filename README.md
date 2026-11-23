@@ -15,7 +15,11 @@ Agent准备完整发布内容与成图后，用已配置Python执行 `PY /技能
 
 核心仅Python标准库；媒体需要FFmpeg/ffprobe，图片需要Pillow，草稿需要pyJianYingDraft==0.3.1及MediaInfo，配音需要websockets，ASR需要Coli及sensevoice模型。利用已有环境，通过PATH提供工具，不重复安装。配音默认使用悠悠君子 2.0 和 seed-tts-2.0。优先读取 AZHENG_DOUBAO_API_KEY，在历史人物视频工作区也可复用 Story Studio 已保存的本地凭据。
 测试：`PY -m unittest discover -s tests -v`（在本目录执行）。测试产物置系统临时目录，明确为模拟。
-当前限制：自动精确音文对齐、SRT、章节拼接命令、配置全量贯通、智能场景分类和生图服务适配尚未完整实现；详见交付报告。不能据此宣称生产全链路验收。
+当前限制：自动精确音文对齐、SRT、章节拼接命令、配置全量贯通和智能场景分类尚未完整实现。详见交付报告。
+
+## 生图
+
+开始实际生图前选择 Codex 内置生图或 DevPoolAi · gpt-image-2.6。选择后可接续已有队列，按镜生成并登记。DevPoolAi 调用支持上传角色参考图。只生成分镜或提示词时直接运行队列流程。[生图指南](modules/image-generation/GUIDE.md)
 
 
 ## V3.0 写作

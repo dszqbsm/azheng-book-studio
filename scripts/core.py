@@ -2,6 +2,13 @@ import json, hashlib, uuid, shutil, subprocess, re, math
 from pathlib import Path
 
 DEFAULT_IMAGE_ASPECT_RATIO = "16:9"
+IMAGE_STYLE_DETAILS = {
+ "classical-zhiguai": (
+  "古典设色志怪，工笔细线勾勒表情、手势和关键物件，淡墨、矿物色与细微绢纹形成手绘质感，"
+  "用少量石青、石绿或朱砂突出情节细节；志怪情节通过人物动作、物件或空间变化体现异样，"
+  "夜景中表情与动作清楚，服饰、建筑和灯具符合本篇年代"
+ ),
+}
 
 def digest(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def read(p): return json.loads(Path(p).read_text(encoding="utf-8-sig"))
@@ -54,6 +61,7 @@ def storyboard(p,cues_path,style):
  ratio=read(p/"book.json").get("image_aspect_ratio",DEFAULT_IMAGE_ASPECT_RATIO)
  width,height=image_ratio_parts(ratio)
  composition="横构图" if width>height else "竖构图" if width<height else "方形构图"
+ style_details=IMAGE_STYLE_DETAILS.get(style,"时代服饰准确，书房或历史意象")
  if not status(p)["artifacts"]["audio"]["valid"]: raise ValueError("Stale audio")
  if c["audio_sha256"]!=a["sha256"] or c["script_sha256"]!=digest(p/"script.md"): raise ValueError("Version mismatch")
  previous=0
@@ -68,7 +76,7 @@ def storyboard(p,cues_path,style):
   if cue["end"]-start>=limit or cue is c["cues"][-1]:
    end=cue["end"] if cue is not c["cues"][-1] else a["duration"]
    text="".join(x["text"] for x in group)
-   shots.append(dict(id=f"s{len(shots)+1:04}",start=start,end=end,narration=text,type=kind,image=None,status="pending",prompt=f"{style}；{ratio} {composition}；{text}；时代服饰准确，书房或历史意象，主体清晰，场景自然延伸到画框四边，画面连续满幅，无字幕预留区、底板、暗带、遮罩或黑边，无文字无水印"));start=end;group=[]
+   shots.append(dict(id=f"s{len(shots)+1:04}",start=start,end=end,narration=text,type=kind,image=None,status="pending",prompt=f"{style}；{ratio} {composition}；{text}；{style_details}，主体清晰，场景自然延伸到画框四边，画面连续满幅，无字幕预留区、底板、暗带、遮罩或黑边，无文字无水印"));start=end;group=[]
  data=dict(schema=1,audio_sha256=a["sha256"],script_sha256=digest(p/"script.md"),duration=a["duration"],image_aspect_ratio=ratio,shots=shots)
  validate(data);save(p/"storyboard.json",data);record(p,"storyboard",p/"storyboard.json",{"script.md":digest(p/"script.md"),"audio/final.json":digest(p/"audio/final.json")});return data
  def_unused=0

@@ -2,7 +2,7 @@
 
 章节间额外停顿默认0.5秒，读取 configs/defaults.json 的 chapter_pause_seconds；不叠加旧版本的3秒静音。使用 `studio.py merge-audio PROJECT --input 合并清单.json` 本地合并并检查。清单格式为 `{"chapters":[{"file":"audio/开场.mp3"},{"file":"audio/第一章.mp3"}]}`，路径相对项目目录或为绝对路径，顺序即播放顺序。停顿仅插在相邻章节之间，不修改章节内部节奏、不触发付费合成。全片时长估计包含这些停顿，不通过延长停顿凑分钟数。
 
-先合成正文各章及结语并实际测时，再确定开场。按 [Writing DNA V3.0](../../references/writing-dna-v3.md) 先读钩子，再自然报书名和本期范围。整本解说使用分钟文案时，按正文实测加开场估时，用 `studio.py runtime-label PROJECT --seconds 秒数` 取最近十分钟（25:00 归 30 分钟档）。合集单集用选篇或当集问题说明范围。合并后运行 `studio.py runtime-label PROJECT` 核对实测档位，若已经播报的分钟约数变化，只修订并重生成开场。保存旧版本和合并清单，正文文件复用并校验哈希。
+先合成正文各章及结语并实际测时，再确定开场送配文本。按 [Writing DNA V3.0](../../references/writing-dna-v3.md) 保留定稿直接进入故事的方式。书名和本期范围可用一句简短报题交代，也可随故事自然说出。整本解说使用分钟文案时，按正文实测加开场估时，用 `studio.py runtime-label PROJECT --seconds 秒数` 取最近十分钟（25:00 归 30 分钟档）。合集单集用选篇或当集问题说明范围。合并后运行 `studio.py runtime-label PROJECT` 核对实测档位，若已经播报的分钟约数变化，只修订并重生成开场。保存旧版本和合并清单，正文文件复用并校验哈希。
 
 ## 纯人声节奏（B 方案）
 

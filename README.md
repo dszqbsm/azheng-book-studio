@@ -1,6 +1,6 @@
 # azheng-book-studio
 
-项目写作与审稿参考 [Writing DNA V3.0](references/writing-dna-v3.md)。发给 Gemini 的[单段提示词](references/writing-dna-v3.md#给-gemini-的单段提示词)可以直接在新会话使用，重点写清开头钩子和整篇的收听目标。发布封面使用 [系列听书封面 V2](references/cover-style-v2.md)。研究证据见 [68 条视频研究](references/competitor-research-68/README.md)。
+选定书目或选篇后，第一步是交付可直接复制到 Gemini 新会话的[单段写作提示词](references/writing-dna-v3.md#给-gemini-的单段提示词)。提示词先定本期一个核心问题，要求开头直接进入相关故事。发布封面使用 [系列听书封面 V2](references/cover-style-v2.md)。研究证据见 [68 条视频研究](references/competitor-research-68/README.md)。
 
 ## 发布前一次性交付
 
